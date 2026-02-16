@@ -1,0 +1,2490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VBC Validation Report</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #333; background: #fff; line-height: 1.5;
+    max-width: 1200px; margin: 0 auto; padding: 20px;
+  }
+  h1 { color: #003366; font-size: 1.8em; margin-bottom: 4px; }
+  h2 { color: #003366; font-size: 1.4em; margin: 28px 0 12px; border-bottom: 2px solid #003366; padding-bottom: 4px; }
+  h3 { color: #0066CC; font-size: 1.15em; margin: 20px 0 8px; }
+  h4 { color: #444; font-size: 1.0em; margin: 12px 0 6px; }
+  .subtitle { color: #666; font-size: 0.95em; margin-bottom: 16px; }
+  .timestamp { color: #999; font-size: 0.8em; text-align: right; margin-bottom: 20px; }
+
+  /* Summary cards */
+  .cards { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0; }
+  .card {
+    border: 1px solid #ddd; border-radius: 6px; padding: 14px 18px;
+    flex: 1; min-width: 180px; background: #fafbfc;
+  }
+  .card .label { font-size: 0.8em; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+  .card .value { font-size: 1.5em; font-weight: 700; color: #003366; margin-top: 2px; }
+  .card .value.red { color: #DC3545; }
+  .card .value.green { color: #28A745; }
+
+  /* Severity badges */
+  .badge {
+    display: inline-block; padding: 2px 10px; border-radius: 12px;
+    font-size: 0.75em; font-weight: 700; color: #fff; letter-spacing: 0.5px;
+  }
+  .badge.RED { background: #DC3545; }
+  .badge.YELLOW { background: #FFC107; color: #333; }
+  .badge.GREEN { background: #28A745; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 18px; font-size: 0.9em; }
+  th { background: #003366; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e0e0e0; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  tr:hover td { background: #eef3f8; }
+
+  /* Flag rows */
+  .flag-row td:first-child { width: 80px; text-align: center; }
+  .flag-row.red-row { border-left: 4px solid #DC3545; }
+  .flag-row.yellow-row { border-left: 4px solid #FFC107; }
+  .flag-row.green-row { border-left: 4px solid #28A745; }
+
+  /* Details/expandable */
+  details { margin: 8px 0; border: 1px solid #e0e0e0; border-radius: 4px; }
+  summary {
+    padding: 10px 14px; cursor: pointer; background: #f8f9fa;
+    font-weight: 600; color: #003366;
+  }
+  summary:hover { background: #eef3f8; }
+  details > div, details > table { padding: 0 14px 14px; }
+
+  /* Diagnostic narrative */
+  .narrative { background: #f0f7ff; border-left: 4px solid #0066CC; padding: 14px 18px; margin: 10px 0; border-radius: 0 4px 4px 0; }
+  .narrative h4 { color: #003366; margin-top: 0; }
+  .narrative ul { margin: 6px 0 6px 20px; }
+  .narrative .cause-item { margin: 4px 0; }
+  .narrative .likelihood { font-size: 0.8em; font-weight: 600; padding: 1px 6px; border-radius: 3px; }
+  .likelihood-high { background: #DC3545; color: #fff; }
+  .likelihood-medium { background: #FFC107; color: #333; }
+  .likelihood-low { background: #28A745; color: #fff; }
+
+  /* Quality gate alert */
+  .gate-alert {
+    background: #fff3cd; border: 2px solid #FFC107; border-radius: 6px;
+    padding: 14px 18px; margin: 12px 0; font-weight: 600;
+  }
+  .gate-alert.fail { background: #f8d7da; border-color: #DC3545; }
+
+  /* Contract section */
+  .contract-section { margin: 30px 0; padding-top: 10px; }
+  .contract-header {
+    background: #003366; color: #fff; padding: 12px 18px;
+    border-radius: 6px 6px 0 0; margin-bottom: 0;
+  }
+  .contract-header h2 { color: #fff; border: none; margin: 0; font-size: 1.2em; }
+  .contract-body { border: 1px solid #ddd; border-top: none; padding: 16px 18px; border-radius: 0 0 6px 6px; }
+
+  .money { font-family: "Courier New", monospace; }
+  .text-right { text-align: right; }
+
+  @media print {
+    body { font-size: 11pt; }
+    .cards { page-break-inside: avoid; }
+    details[open] > summary { font-size: 11pt; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Specialty VBC Report Validation</h1>
+<p class="subtitle">Automated Validation &amp; AI Diagnostic Report</p>
+<p class="timestamp">Generated: 2026-02-16 10:42:05</p>
+
+<!-- ===== EXECUTIVE SUMMARY ===== -->
+<h2>Executive Summary</h2>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">Total Flags</div>
+    <div class="value">55</div>
+  </div>
+  <div class="card">
+    <div class="label">Critical (RED)</div>
+    <div class="value red">26</div>
+  </div>
+  <div class="card">
+    <div class="label">Warning (YELLOW)</div>
+    <div class="value" style="color:#FFC107">26</div>
+  </div>
+  <div class="card">
+    <div class="label">Passing (GREEN)</div>
+    <div class="value green">3</div>
+  </div>
+  <div class="card">
+    <div class="label">Contracts Reviewed</div>
+    <div class="value">2</div>
+  </div>
+</div>
+
+<!-- ===== MSK CONTRACT ===== -->
+<div class="contract-section">
+<div class="contract-header">
+  <h2>Midwest Orthopedic Partners — MA Bundled Episodes</h2>
+</div>
+<div class="contract-body">
+
+<p><strong>Type:</strong> episode_bundled | <strong>LOB:</strong> Medicare Advantage | <strong>Period:</strong> CY 2024 | <strong>Members:</strong> 6,200</p>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">Total Cost</div>
+    <div class="value money">$15,965,300</div>
+  </div>
+  <div class="card">
+    <div class="label">Total Target</div>
+    <div class="value money">$16,718,500</div>
+  </div>
+  <div class="card">
+    <div class="label">Variance</div>
+    <div class="value money green">
+      $-753,200 (-4.5%)
+    </div>
+  </div>
+  <div class="card">
+    <div class="label">Provider Share</div>
+    <div class="value money green">
+      $376,600
+    </div>
+  </div>
+</div>
+
+<p>
+  <span class="badge RED">12 RED</span>
+  <span class="badge YELLOW">15 YELLOW</span>
+  <span class="badge GREEN">2 GREEN</span>
+</p>
+
+
+
+<div class="gate-alert">Quality Gate: PASSED — Composite 72.2% (minimum 60%)</div>
+
+
+
+<!-- MSK Episode Detail -->
+<h3>Episode Performance</h3>
+<table>
+  <tr>
+    <th>Episode Type</th><th class="text-right">Count</th><th class="text-right">Avg Cost</th>
+    <th class="text-right">Target</th><th class="text-right">Variance</th>
+    <th class="text-right">Prior Yr Cost</th><th class="text-right">Risk Actual</th><th class="text-right">Risk Expected</th>
+  </tr>
+  
+  <tr>
+    <td>TKR</td>
+    <td class="text-right">142</td>
+    <td class="text-right money">$26,800</td>
+    <td class="text-right money">$28,000</td>
+    <td class="text-right ">-4.3%</td>
+    <td class="text-right money">$27,200</td>
+    <td class="text-right">1.050</td>
+    <td class="text-right">1.040</td>
+  </tr>
+  
+  <tr>
+    <td>THR</td>
+    <td class="text-right">95</td>
+    <td class="text-right money">$25,400</td>
+    <td class="text-right money">$27,500</td>
+    <td class="text-right ">-7.6%</td>
+    <td class="text-right money">$26,100</td>
+    <td class="text-right">1.030</td>
+    <td class="text-right">1.020</td>
+  </tr>
+  
+  <tr>
+    <td>Spinal Fusion 1-2</td>
+    <td class="text-right">58</td>
+    <td class="text-right money">$41,200</td>
+    <td class="text-right money">$38,000</td>
+    <td class="text-right red">8.4%</td>
+    <td class="text-right money">$39,800</td>
+    <td class="text-right">1.080</td>
+    <td class="text-right">1.050</td>
+  </tr>
+  
+  <tr>
+    <td>Spinal Fusion 3+</td>
+    <td class="text-right">18</td>
+    <td class="text-right money">$78,500</td>
+    <td class="text-right money">$72,000</td>
+    <td class="text-right red">9.0%</td>
+    <td class="text-right money">$75,200</td>
+    <td class="text-right">1.150</td>
+    <td class="text-right">1.120</td>
+  </tr>
+  
+  <tr>
+    <td>Knee Arthroscopy</td>
+    <td class="text-right">205</td>
+    <td class="text-right money">$8,400</td>
+    <td class="text-right money">$9,200</td>
+    <td class="text-right ">-8.7%</td>
+    <td class="text-right money">$8,800</td>
+    <td class="text-right">1.010</td>
+    <td class="text-right">1.010</td>
+  </tr>
+  
+  <tr>
+    <td>Rotator Cuff</td>
+    <td class="text-right">72</td>
+    <td class="text-right money">$16,800</td>
+    <td class="text-right money">$18,000</td>
+    <td class="text-right ">-6.7%</td>
+    <td class="text-right money">$17,200</td>
+    <td class="text-right">1.040</td>
+    <td class="text-right">1.030</td>
+  </tr>
+  
+  <tr>
+    <td>Conservative LBP</td>
+    <td class="text-right">485</td>
+    <td class="text-right money">$4,100</td>
+    <td class="text-right money">$4,800</td>
+    <td class="text-right ">-14.6%</td>
+    <td class="text-right money">$4,600</td>
+    <td class="text-right">0.980</td>
+    <td class="text-right">0.990</td>
+  </tr>
+  
+  <tr>
+    <td>Conservative Joint</td>
+    <td class="text-right">320</td>
+    <td class="text-right money">$3,200</td>
+    <td class="text-right money">$3,500</td>
+    <td class="text-right ">-8.6%</td>
+    <td class="text-right money">$3,400</td>
+    <td class="text-right">0.970</td>
+    <td class="text-right">0.980</td>
+  </tr>
+  
+</table>
+
+<!-- MSK Flags by Episode -->
+
+
+<details>
+  <summary>TKR — 5 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>prom_collection_rate</td>
+      <td>prom_collection_rate = 0.39 is within bounds but significantly deviates from expected 0.65 for TKR</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>er_visit_rate_90d</td>
+      <td>er_visit_rate_90d = 0.14 exceeds target 0.08 for TKR (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>ssi_rate</td>
+      <td>ssi_rate = 0.021 exceeds target 0.02 for TKR (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>discharge_shift_er_correlation</td>
+      <td>TKR: Discharge-to-home increased 12% (62%→74%) while ER visits increased 75% (8%→14%)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>prom_collection_reliability</td>
+      <td>TKR: PROM collection rate of 39% renders outcome measures unreliable</td>
+    </tr>
+    
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>THR — 2 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>implant_cost_ratio</td>
+      <td>THR: Implant cost is 22.8% of total episode cost ($5,800/$25,400), exceeding 20% benchmark</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>prom_collection_reliability</td>
+      <td>THR: PROM collection rate of 41% renders outcome measures unreliable</td>
+    </tr>
+    
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>Spinal Fusion 1-2 — 7 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>prom_collection_rate</td>
+      <td>prom_collection_rate = 0.38 is within bounds but significantly deviates from expected 0.65 for Spinal Fusion 1-2</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>readmission_rate</td>
+      <td>readmission_rate = 0.065 exceeds target 0.05 for Spinal Fusion 1-2 (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>er_visit_rate_90d</td>
+      <td>er_visit_rate_90d = 0.1 exceeds target 0.08 for Spinal Fusion 1-2 (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>ssi_rate</td>
+      <td>ssi_rate = 0.028 exceeds target 0.02 for Spinal Fusion 1-2 (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>revision_rate_12mo</td>
+      <td>revision_rate_12mo = 0.022 exceeds target 0.02 for Spinal Fusion 1-2 (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>opioid_mme_discharge</td>
+      <td>Spinal Fusion 1-2: Average discharge opioid prescription of 55.0 MME exceeds 50 MME threshold</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>prom_collection_reliability</td>
+      <td>Spinal Fusion 1-2: PROM collection rate of 38% renders outcome measures unreliable</td>
+    </tr>
+    
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>Spinal Fusion 3+ — 7 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>prom_collection_rate</td>
+      <td>prom_collection_rate = 0.35 is within bounds but significantly deviates from expected 0.65 for Spinal Fusion 3+</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>readmission_rate</td>
+      <td>readmission_rate = 0.085 exceeds target 0.05 for Spinal Fusion 3+ (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>er_visit_rate_90d</td>
+      <td>er_visit_rate_90d = 0.12 exceeds target 0.08 for Spinal Fusion 3+ (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>ssi_rate</td>
+      <td>ssi_rate = 0.035 exceeds target 0.02 for Spinal Fusion 3+ (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>revision_rate_12mo</td>
+      <td>revision_rate_12mo = 0.03 exceeds target 0.02 for Spinal Fusion 3+ (but within acceptable range)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>opioid_mme_discharge</td>
+      <td>Spinal Fusion 3+: Average discharge opioid prescription of 65.0 MME exceeds 50 MME threshold</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>prom_collection_reliability</td>
+      <td>Spinal Fusion 3+: PROM collection rate of 35% renders outcome measures unreliable</td>
+    </tr>
+    
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>Knee Arthroscopy — 4 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>volume_per_1000</td>
+      <td>Knee arthroscopy volume 33.1/1,000 exceeds expected MA range of 15-25/1,000</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>arthroscopy_to_conservative_ratio</td>
+      <td>Arthroscopy-to-conservative joint ratio is 0.64:1, exceeding expected maximum of 0.50:1</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>arthroscopy_volume</td>
+      <td>Knee arthroscopy rate of 33.1/1,000 exceeds expected MA range — potential overutilization</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>prom_collection_reliability</td>
+      <td>Knee Arthroscopy: PROM collection rate of 42% renders outcome measures unreliable</td>
+    </tr>
+    
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>Rotator Cuff — 1 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>prom_collection_reliability</td>
+      <td>Rotator Cuff: PROM collection rate of 40% renders outcome measures unreliable</td>
+    </tr>
+    
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+
+
+
+
+<!-- MSK Quality Scorecard -->
+<h3>Quality Scorecard</h3>
+<table>
+  <tr>
+    <th>Measure</th><th class="text-right">Numerator</th><th class="text-right">Denominator</th>
+    <th class="text-right">Rate</th><th>Target</th>
+    <th class="text-right">Points</th><th class="text-right">Prior Year</th>
+  </tr>
+  
+  <tr>
+    <td>Surgical Site Infection (TKR/THR)</td>
+    <td class="text-right">5.0</td>
+    <td class="text-right">237.0</td>
+    <td class="text-right">2.1%</td>
+    <td>0.02</td>
+    <td class="text-right">8/10</td>
+    <td class="text-right">2.5%</td>
+  </tr>
+  
+  <tr>
+    <td>90-Day Readmission (Surgical)</td>
+    <td class="text-right">18.0</td>
+    <td class="text-right">390.0</td>
+    <td class="text-right">4.6%</td>
+    <td>0.05</td>
+    <td class="text-right">10/10</td>
+    <td class="text-right">5.2%</td>
+  </tr>
+  
+  <tr>
+    <td>90-Day ER Visit (Surgical)</td>
+    <td class="text-right">35.0</td>
+    <td class="text-right">390.0</td>
+    <td class="text-right">9.0%</td>
+    <td>0.08</td>
+    <td class="text-right">7/10</td>
+    <td class="text-right">7.5%</td>
+  </tr>
+  
+  <tr>
+    <td>12-Month Revision Rate</td>
+    <td class="text-right">4.0</td>
+    <td class="text-right">237.0</td>
+    <td class="text-right">1.7%</td>
+    <td>0.02</td>
+    <td class="text-right">10/10</td>
+    <td class="text-right">2.0%</td>
+  </tr>
+  
+  <tr>
+    <td>PROM Collection Rate</td>
+    <td class="text-right">152.0</td>
+    <td class="text-right">390.0</td>
+    <td class="text-right">39.0%</td>
+    <td>0.6</td>
+    <td class="text-right">2/10</td>
+    <td class="text-right">35.0%</td>
+  </tr>
+  
+  <tr>
+    <td>PROM Clinically Meaningful Improvement</td>
+    <td class="text-right">98.0</td>
+    <td class="text-right">152.0</td>
+    <td class="text-right">64.5%</td>
+    <td>0.7</td>
+    <td class="text-right">6/10</td>
+    <td class="text-right">61.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Opioid MME Compliance</td>
+    <td class="text-right">285.0</td>
+    <td class="text-right">390.0</td>
+    <td class="text-right">73.1%</td>
+    <td>0.8</td>
+    <td class="text-right">6/10</td>
+    <td class="text-right">70.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Conservative Tx Attempted Pre-Surgery</td>
+    <td class="text-right">340.0</td>
+    <td class="text-right">390.0</td>
+    <td class="text-right">87.2%</td>
+    <td>0.85</td>
+    <td class="text-right">9/10</td>
+    <td class="text-right">85.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Patient Satisfaction (Top Box)</td>
+    <td class="text-right">312.0</td>
+    <td class="text-right">390.0</td>
+    <td class="text-right">80.0%</td>
+    <td>0.82</td>
+    <td class="text-right">7/10</td>
+    <td class="text-right">79.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Composite Quality Score</td>
+    <td class="text-right">—</td>
+    <td class="text-right">—</td>
+    <td class="text-right">72.2%</td>
+    <td>0.6</td>
+    <td class="text-right">65/90</td>
+    <td class="text-right">—</td>
+  </tr>
+  
+</table>
+
+</div>
+</div>
+
+<!-- ===== ONCOLOGY CONTRACT ===== -->
+<div class="contract-section">
+<div class="contract-header">
+  <h2>Regional Cancer Center Network — MA Episode + Pathway</h2>
+</div>
+<div class="contract-body">
+
+<p><strong>Type:</strong> episode_pathway | <strong>LOB:</strong> Medicare Advantage | <strong>Period:</strong> CY 2024 | <strong>Members:</strong> 4,800</p>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">Total Cost</div>
+    <div class="value money">$21,004,600</div>
+  </div>
+  <div class="card">
+    <div class="label">Total Target</div>
+    <div class="value money">$20,248,000</div>
+  </div>
+  <div class="card">
+    <div class="label">Variance</div>
+    <div class="value money red">
+      $756,600 (3.7%)
+    </div>
+  </div>
+  <div class="card">
+    <div class="label">Provider Share</div>
+    <div class="value money red">
+      $-189,150
+    </div>
+  </div>
+</div>
+
+<p>
+  <span class="badge RED">14 RED</span>
+  <span class="badge YELLOW">11 YELLOW</span>
+  <span class="badge GREEN">1 GREEN</span>
+</p>
+
+
+
+<div class="gate-alert fail">Quality Gate: FAILED — Composite 53.0% (minimum 55%) — $0 in shared savings forfeited</div>
+
+
+
+<!-- Oncology Episode Detail -->
+<h3>Episode Performance</h3>
+<table>
+  <tr>
+    <th>Cancer/Stage/Line</th><th class="text-right">Count</th><th class="text-right">Avg Cost</th>
+    <th class="text-right">Target</th><th class="text-right">Variance</th>
+    <th class="text-right">Pathway Adh.</th><th class="text-right">Biosimilar</th>
+  </tr>
+  
+  <tr>
+    <td>Breast Early 1L</td>
+    <td class="text-right">78</td>
+    <td class="text-right money">$39,200</td>
+    <td class="text-right money">$42,000</td>
+    <td class="text-right ">-6.7%</td>
+    <td class="text-right">88%</td>
+    <td class="text-right">52%</td>
+  </tr>
+  
+  <tr>
+    <td>Breast Metastatic 1L</td>
+    <td class="text-right">32</td>
+    <td class="text-right money">$102,400</td>
+    <td class="text-right money">$95,000</td>
+    <td class="text-right red">7.8%</td>
+    <td class="text-right">72%</td>
+    <td class="text-right">11%</td>
+  </tr>
+  
+  <tr>
+    <td>Breast Metastatic 2L+</td>
+    <td class="text-right">18</td>
+    <td class="text-right money">$88,500</td>
+    <td class="text-right money">$90,000</td>
+    <td class="text-right ">-1.7%</td>
+    <td class="text-right">65%</td>
+    <td class="text-right">15%</td>
+  </tr>
+  
+  <tr>
+    <td>Lung NSCLC 1L</td>
+    <td class="text-right">42</td>
+    <td class="text-right money">$118,300</td>
+    <td class="text-right money">$105,000</td>
+    <td class="text-right red">12.7%</td>
+    <td class="text-right">68%</td>
+    <td class="text-right">42%</td>
+  </tr>
+  
+  <tr>
+    <td>Lung NSCLC 2L+</td>
+    <td class="text-right">24</td>
+    <td class="text-right money">$82,600</td>
+    <td class="text-right money">$85,000</td>
+    <td class="text-right ">-2.8%</td>
+    <td class="text-right">62%</td>
+    <td class="text-right">38%</td>
+  </tr>
+  
+  <tr>
+    <td>Colorectal Adjuvant 1L</td>
+    <td class="text-right">36</td>
+    <td class="text-right money">$33,500</td>
+    <td class="text-right money">$35,000</td>
+    <td class="text-right ">-4.3%</td>
+    <td class="text-right">91%</td>
+    <td class="text-right">48%</td>
+  </tr>
+  
+  <tr>
+    <td>Colorectal Metastatic 1L</td>
+    <td class="text-right">28</td>
+    <td class="text-right money">$92,800</td>
+    <td class="text-right money">$82,000</td>
+    <td class="text-right red">13.2%</td>
+    <td class="text-right">64%</td>
+    <td class="text-right">35%</td>
+  </tr>
+  
+  <tr>
+    <td>Prostate Early 1L</td>
+    <td class="text-right">45</td>
+    <td class="text-right money">$16,200</td>
+    <td class="text-right money">$18,000</td>
+    <td class="text-right ">-10.0%</td>
+    <td class="text-right">85%</td>
+    <td class="text-right">N/A</td>
+  </tr>
+  
+  <tr>
+    <td>Prostate Advanced 1L</td>
+    <td class="text-right">22</td>
+    <td class="text-right money">$72,400</td>
+    <td class="text-right money">$68,000</td>
+    <td class="text-right red">6.5%</td>
+    <td class="text-right">74%</td>
+    <td class="text-right">40%</td>
+  </tr>
+  
+</table>
+
+<!-- Oncology Flags by Episode -->
+
+
+
+
+<details>
+  <summary>Breast Metastatic 1L — 2 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>pathway_adherence_rate</td>
+      <td>Pathway adherence 72% below expected 75% for Breast Metastatic 1L</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>pathway_cost_correlation</td>
+      <td>Breast Metastatic 1L: Non-pathway regimens cost $121,429/episode vs $95,000 pathway (+28%), driving $211,429 in excess cost</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>Breast Metastatic 2L+ — 1 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>pathway_adherence_rate</td>
+      <td>Pathway adherence 65% below expected 75% for Breast Metastatic 2L+</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>Lung NSCLC 1L — 3 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>pathway_adherence_rate</td>
+      <td>Pathway adherence 68% below expected 72% for Lung NSCLC 1L</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>pathway_cost_correlation</td>
+      <td>Lung NSCLC 1L: Cost overrun of 12.7% correlated with pathway adherence of only 68%</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>pathway_cost_correlation</td>
+      <td>Lung NSCLC 1L: Non-pathway regimens cost $146,563/episode vs $105,000 pathway (+40%), driving $540,313 in excess cost</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>Lung NSCLC 2L+ — 1 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>pathway_adherence_rate</td>
+      <td>Pathway adherence 62% below expected 65% for Lung NSCLC 2L+</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+
+
+<details>
+  <summary>Colorectal Metastatic 1L — 3 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>pathway_adherence_rate</td>
+      <td>Pathway adherence 64% below expected 68% for Colorectal Metastatic 1L</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>pathway_cost_correlation</td>
+      <td>Colorectal Metastatic 1L: Cost overrun of 13.2% correlated with pathway adherence of only 64%</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>pathway_cost_correlation</td>
+      <td>Colorectal Metastatic 1L: Non-pathway regimens cost $112,000/episode vs $82,000 pathway (+37%), driving $300,000 in excess cost</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+
+
+
+
+<!-- Cross-cutting oncology flags -->
+
+
+
+<details>
+  <summary>End-of-Life Care — 2 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>eol_systemic_failure</td>
+      <td>Systemic palliative care integration failure: 5 of 5 EOL metrics are failing simultaneously</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>acp_root_cause</td>
+      <td>Advance Care Planning (44.6%) is the root cause of systemic EOL metric failure — 5/5 EOL measures failing</td>
+    </tr>
+    
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>Quality Gate — 2 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>quality_gate_proximity</td>
+      <td>Quality gate FAILURE: composite 53.0% is 2.0 points below the 55% minimum — $0 in shared savings at risk</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>quality_gate_improvement_path</td>
+      <td>Quality gate 2.0 points from passing — $0 at risk. Easiest improvement: Patient Experience (Top Box) (8/10, gap=2pts); Biomarker Testing (NSCLC) (7/10, gap=3pts); Hospice Enrollment (Decedents) (5/10, gap=5pts)</td>
+    </tr>
+    
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<details>
+  <summary>Drug Detail — 6 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>cross_metric</td>
+      <td>site_of_service_cost</td>
+      <td>Bevacizumab (Avastin): 85% HOPD administration for a drug costing $6,500/claim — estimated $83,362 in excess facility costs</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>biosimilar_savings_opportunity</td>
+      <td>Trastuzumab (Herceptin): 65 brand claims at $4,800/claim vs biosimilar at $2,200/claim — $169,000 savings opportunity ($520/episode)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>biosimilar_savings_opportunity</td>
+      <td>Bevacizumab (Avastin): 95 brand claims at $6,500/claim vs biosimilar at $3,500/claim — $285,000 savings opportunity ($877/episode)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>biosimilar_savings_opportunity</td>
+      <td>Pegfilgrastim (Neulasta): 92 brand claims at $5,000/claim vs biosimilar at $2,500/claim — $230,000 savings opportunity ($708/episode)</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>site_of_service_opportunity</td>
+      <td>Bevacizumab (Avastin): 85% administered at HOPD vs 40% target — estimated $138,937 in excess facility costs</td>
+    </tr>
+    
+    
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>novel_therapy_carveout</td>
+      <td>Novel therapy carve-out: $62,500 in costs from 1 drug(s) approved within 18-month lookback may be excluded from savings calculation</td>
+    </tr>
+    
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<!-- Oncology Quality Scorecard -->
+<h3>Quality Scorecard</h3>
+<table>
+  <tr>
+    <th>Measure</th><th class="text-right">Numerator</th><th class="text-right">Denominator</th>
+    <th class="text-right">Rate</th><th>Target</th>
+    <th class="text-right">Points</th><th class="text-right">National Benchmark</th>
+  </tr>
+  
+  <tr>
+    <td>Pathway Adherence (Overall)</td>
+    <td class="text-right">238.0</td>
+    <td class="text-right">325.0</td>
+    <td class="text-right">73.2%</td>
+    <td>0.8</td>
+    <td class="text-right">12/20</td>
+    <td class="text-right">78.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Chemo Within 14 Days of Death</td>
+    <td class="text-right">11.0</td>
+    <td class="text-right">58.0</td>
+    <td class="text-right">19.0%</td>
+    <td>0.1</td>
+    <td class="text-right">3/10</td>
+    <td class="text-right">9.5%</td>
+  </tr>
+  
+  <tr>
+    <td>Hospice Enrollment (Decedents)</td>
+    <td class="text-right">25.0</td>
+    <td class="text-right">58.0</td>
+    <td class="text-right">43.1%</td>
+    <td>0.55</td>
+    <td class="text-right">5/10</td>
+    <td class="text-right">58.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Hospice >7 Days Before Death</td>
+    <td class="text-right">16.0</td>
+    <td class="text-right">58.0</td>
+    <td class="text-right">27.6%</td>
+    <td>0.4</td>
+    <td class="text-right">3/10</td>
+    <td class="text-right">42.0%</td>
+  </tr>
+  
+  <tr>
+    <td>ICU Within 30 Days of Death</td>
+    <td class="text-right">14.0</td>
+    <td class="text-right">58.0</td>
+    <td class="text-right">24.1%</td>
+    <td>0.15</td>
+    <td class="text-right">2/10</td>
+    <td class="text-right">14.0%</td>
+  </tr>
+  
+  <tr>
+    <td>ER Within 30 Days of Death</td>
+    <td class="text-right">19.0</td>
+    <td class="text-right">58.0</td>
+    <td class="text-right">32.8%</td>
+    <td>0.25</td>
+    <td class="text-right">5/10</td>
+    <td class="text-right">26.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Biomarker Testing (NSCLC)</td>
+    <td class="text-right">55.0</td>
+    <td class="text-right">66.0</td>
+    <td class="text-right">83.3%</td>
+    <td>0.9</td>
+    <td class="text-right">7/10</td>
+    <td class="text-right">91.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Biosimilar Utilization</td>
+    <td class="text-right">42.0</td>
+    <td class="text-right">85.0</td>
+    <td class="text-right">49.4%</td>
+    <td>0.7</td>
+    <td class="text-right">4/10</td>
+    <td class="text-right">68.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Advance Care Planning Documented</td>
+    <td class="text-right">145.0</td>
+    <td class="text-right">325.0</td>
+    <td class="text-right">44.6%</td>
+    <td>0.65</td>
+    <td class="text-right">4/10</td>
+    <td class="text-right">62.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Patient Experience (Top Box)</td>
+    <td class="text-right">268.0</td>
+    <td class="text-right">325.0</td>
+    <td class="text-right">82.5%</td>
+    <td>0.8</td>
+    <td class="text-right">8/10</td>
+    <td class="text-right">81.0%</td>
+  </tr>
+  
+  <tr>
+    <td>Composite Quality Score</td>
+    <td class="text-right">—</td>
+    <td class="text-right">—</td>
+    <td class="text-right">53.0%</td>
+    <td>0.55</td>
+    <td class="text-right">53/100</td>
+    <td class="text-right">72.0%</td>
+  </tr>
+  
+</table>
+
+<!-- Drug Detail -->
+<h3>Drug Utilization Detail</h3>
+<table>
+  <tr>
+    <th>Drug</th><th>Category</th><th>Biosimilar</th>
+    <th class="text-right">Claims</th><th class="text-right">Total Cost</th>
+    <th class="text-right">Avg/Claim</th>
+    <th class="text-right">Office %</th><th class="text-right">HOPD %</th>
+  </tr>
+  
+  <tr>
+    <td>Pembrolizumab (Keytruda)</td>
+    <td>Checkpoint Inhibitor</td>
+    <td>No</td>
+    <td class="text-right">185</td>
+    <td class="text-right money">$2,035,000</td>
+    <td class="text-right money">$11,000</td>
+    <td class="text-right">52%</td>
+    <td class="text-right">48%</td>
+  </tr>
+  
+  <tr>
+    <td>Nivolumab (Opdivo)</td>
+    <td>Checkpoint Inhibitor</td>
+    <td>No</td>
+    <td class="text-right">42</td>
+    <td class="text-right money">$390,600</td>
+    <td class="text-right money">$9,300</td>
+    <td class="text-right">50%</td>
+    <td class="text-right">50%</td>
+  </tr>
+  
+  <tr>
+    <td>Trastuzumab (Herceptin)</td>
+    <td>HER2 Targeted</td>
+    <td>No</td>
+    <td class="text-right">65</td>
+    <td class="text-right money">$312,000</td>
+    <td class="text-right money">$4,800</td>
+    <td class="text-right">42%</td>
+    <td class="text-right">58%</td>
+  </tr>
+  
+  <tr>
+    <td>Trastuzumab-dkst (Ogivri)</td>
+    <td>HER2 Targeted</td>
+    <td>Yes</td>
+    <td class="text-right">8</td>
+    <td class="text-right money">$17,600</td>
+    <td class="text-right money">$2,200</td>
+    <td class="text-right">55%</td>
+    <td class="text-right">45%</td>
+  </tr>
+  
+  <tr>
+    <td>Bevacizumab (Avastin)</td>
+    <td>VEGF Inhibitor</td>
+    <td>No</td>
+    <td class="text-right">95</td>
+    <td class="text-right money">$617,500</td>
+    <td class="text-right money">$6,500</td>
+    <td class="text-right">15%</td>
+    <td class="text-right">85%</td>
+  </tr>
+  
+  <tr>
+    <td>Bevacizumab-awwb (Mvasi)</td>
+    <td>VEGF Inhibitor</td>
+    <td>Yes</td>
+    <td class="text-right">35</td>
+    <td class="text-right money">$122,500</td>
+    <td class="text-right money">$3,500</td>
+    <td class="text-right">45%</td>
+    <td class="text-right">55%</td>
+  </tr>
+  
+  <tr>
+    <td>Carboplatin</td>
+    <td>Chemotherapy</td>
+    <td>No</td>
+    <td class="text-right">120</td>
+    <td class="text-right money">$96,000</td>
+    <td class="text-right money">$800</td>
+    <td class="text-right">55%</td>
+    <td class="text-right">45%</td>
+  </tr>
+  
+  <tr>
+    <td>Paclitaxel</td>
+    <td>Chemotherapy</td>
+    <td>No</td>
+    <td class="text-right">145</td>
+    <td class="text-right money">$159,500</td>
+    <td class="text-right money">$1,100</td>
+    <td class="text-right">52%</td>
+    <td class="text-right">48%</td>
+  </tr>
+  
+  <tr>
+    <td>Docetaxel</td>
+    <td>Chemotherapy</td>
+    <td>No</td>
+    <td class="text-right">55</td>
+    <td class="text-right money">$71,500</td>
+    <td class="text-right money">$1,300</td>
+    <td class="text-right">50%</td>
+    <td class="text-right">50%</td>
+  </tr>
+  
+  <tr>
+    <td>FOLFOX (Oxaliplatin+5FU+LV)</td>
+    <td>Chemotherapy</td>
+    <td>No</td>
+    <td class="text-right">88</td>
+    <td class="text-right money">$220,000</td>
+    <td class="text-right money">$2,500</td>
+    <td class="text-right">48%</td>
+    <td class="text-right">52%</td>
+  </tr>
+  
+  <tr>
+    <td>Palbociclib (Ibrance)</td>
+    <td>CDK4/6 Inhibitor</td>
+    <td>No</td>
+    <td class="text-right">48</td>
+    <td class="text-right money">$672,000</td>
+    <td class="text-right money">$14,000</td>
+    <td class="text-right">N/A</td>
+    <td class="text-right">N/A</td>
+  </tr>
+  
+  <tr>
+    <td>Ribociclib (Kisqali)</td>
+    <td>CDK4/6 Inhibitor</td>
+    <td>No</td>
+    <td class="text-right">22</td>
+    <td class="text-right money">$286,000</td>
+    <td class="text-right money">$13,000</td>
+    <td class="text-right">N/A</td>
+    <td class="text-right">N/A</td>
+  </tr>
+  
+  <tr>
+    <td>Enzalutamide (Xtandi)</td>
+    <td>Antiandrogen</td>
+    <td>No</td>
+    <td class="text-right">38</td>
+    <td class="text-right money">$494,000</td>
+    <td class="text-right money">$13,000</td>
+    <td class="text-right">N/A</td>
+    <td class="text-right">N/A</td>
+  </tr>
+  
+  <tr>
+    <td>Trastuzumab deruxtecan (Enhertu)</td>
+    <td>ADC</td>
+    <td>No</td>
+    <td class="text-right">15</td>
+    <td class="text-right money">$225,000</td>
+    <td class="text-right money">$15,000</td>
+    <td class="text-right">48%</td>
+    <td class="text-right">52%</td>
+  </tr>
+  
+  <tr>
+    <td>Sacituzumab govitecan (Trodelvy)</td>
+    <td>ADC</td>
+    <td>No</td>
+    <td class="text-right">12</td>
+    <td class="text-right money">$192,000</td>
+    <td class="text-right money">$16,000</td>
+    <td class="text-right">45%</td>
+    <td class="text-right">55%</td>
+  </tr>
+  
+  <tr>
+    <td>Dostarlimab (Jemperli)</td>
+    <td>Checkpoint Inhibitor</td>
+    <td>No</td>
+    <td class="text-right">5</td>
+    <td class="text-right money">$62,500</td>
+    <td class="text-right money">$12,500</td>
+    <td class="text-right">40%</td>
+    <td class="text-right">60%</td>
+  </tr>
+  
+  <tr>
+    <td>Pegfilgrastim (Neulasta)</td>
+    <td>Supportive Care</td>
+    <td>No</td>
+    <td class="text-right">92</td>
+    <td class="text-right money">$460,000</td>
+    <td class="text-right money">$5,000</td>
+    <td class="text-right">35%</td>
+    <td class="text-right">45%</td>
+  </tr>
+  
+  <tr>
+    <td>Pegfilgrastim-jmdb (Fulphila)</td>
+    <td>Supportive Care</td>
+    <td>Yes</td>
+    <td class="text-right">45</td>
+    <td class="text-right money">$112,500</td>
+    <td class="text-right money">$2,500</td>
+    <td class="text-right">40%</td>
+    <td class="text-right">40%</td>
+  </tr>
+  
+</table>
+
+</div>
+</div>
+
+<!-- ===== CROSS-CUTTING FINDINGS ===== -->
+
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+
+
+<h2>Cross-Cutting Findings</h2>
+
+<details open>
+  <summary>ALL — 4 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Contract</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row green-row">
+      <td><span class="badge GREEN">GREEN</span></td>
+      <td>MSK-2024-001</td>
+      <td>schema_check</td>
+      <td>Schema validation passed for msk_episodes</td>
+    </tr>
+    
+    <tr class="flag-row green-row">
+      <td><span class="badge GREEN">GREEN</span></td>
+      <td>MSK-2024-001</td>
+      <td>schema_check</td>
+      <td>Schema validation passed for msk_quality</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>ONC-2024-001</td>
+      <td>er_visit_rate</td>
+      <td>Rate column 'er_visit_rate' appears to be on 0-100 scale instead of 0-1</td>
+    </tr>
+    
+    <tr class="flag-row green-row">
+      <td><span class="badge GREEN">GREEN</span></td>
+      <td>ONC-2024-001</td>
+      <td>schema_check</td>
+      <td>Schema validation passed for onc_quality</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+<details open>
+  <summary>Conservative LBP → Spinal Fusion — 1 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Contract</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>MSK-2024-001</td>
+      <td>surgical_pipeline_acceleration</td>
+      <td>Potential surgical pipeline acceleration: Conservative LBP decreased 6.7% (520→485) while Spinal Fusion 1-2 increased 38.1% (42→58)</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+<details open>
+  <summary>Breast Volume — 1 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Contract</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>ONC-2024-001</td>
+      <td>episode_volume_vs_incidence</td>
+      <td>Breast episode rate of 26.7/1,000 is >9.0/1,000 — potential attribution problem</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+<details open>
+  <summary>Lung Volume — 1 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Contract</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>ONC-2024-001</td>
+      <td>episode_volume_vs_incidence</td>
+      <td>Lung episode rate of 13.8/1,000 is >7.0/1,000 — potential attribution problem</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+<details open>
+  <summary>Colorectal Volume — 1 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Contract</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>ONC-2024-001</td>
+      <td>episode_volume_vs_incidence</td>
+      <td>Colorectal episode rate of 13.3/1,000 is >5.0/1,000 — potential attribution problem</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+<details open>
+  <summary>Prostate Volume — 1 flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Contract</th><th>Metric</th><th>Description</th></tr>
+    
+    <tr class="flag-row red-row">
+      <td><span class="badge RED">RED</span></td>
+      <td>ONC-2024-001</td>
+      <td>episode_volume_vs_incidence</td>
+      <td>Prostate episode rate of 14.0/1,000 is >6.0/1,000 — potential attribution problem</td>
+    </tr>
+    
+  </table>
+  
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> AI diagnostics unavailable — API error: "Could not resolve authentication method. Expected either api_key or auth_token to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
+    
+    <p><strong>Contract Implications:</strong> Unable to assess — AI diagnostics unavailable.</p>
+    
+  </div>
+  
+</details>
+
+
+
+<!-- ===== APPENDIX: VALIDATION LOG ===== -->
+<h2>Appendix: Complete Validation Log</h2>
+<p class="subtitle">55 total flags across all contracts</p>
+
+<details>
+  <summary>Show full validation log</summary>
+  <table>
+    <tr>
+      <th>ID</th><th>Severity</th><th>Category</th><th>Contract</th>
+      <th>Episode</th><th>Metric</th><th>Value</th><th>Expected</th><th>Description</th>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>CROSS-001</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>MSK-2024-001</td>
+      <td>TKR</td>
+      <td>discharge_shift_er_correlation</td>
+      <td>home +12%, ER +75%</td>
+      <td>ER rate should not increase >50% when home discharge increases >10pp</td>
+      <td>TKR: Discharge-to-home increased 12% (62%→74%) while ER visits increased 75% (8%→14%)</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>CROSS-002</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>MSK-2024-001</td>
+      <td>Knee Arthroscopy</td>
+      <td>volume_per_1000</td>
+      <td>33.1 per 1,000</td>
+      <td>15-25 per 1,000 for MA population</td>
+      <td>Knee arthroscopy volume 33.1/1,000 exceeds expected MA range of 15-25/1,000</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>CROSS-003</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>MSK-2024-001</td>
+      <td>Knee Arthroscopy</td>
+      <td>arthroscopy_to_conservative_ratio</td>
+      <td>0.64:1</td>
+      <td><0.50:1 (target 0.35:1)</td>
+      <td>Arthroscopy-to-conservative joint ratio is 0.64:1, exceeding expected maximum of 0.50:1</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>CROSS-004</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>MSK-2024-001</td>
+      <td>Conservative LBP → Spinal Fusion</td>
+      <td>surgical_pipeline_acceleration</td>
+      <td>Conservative LBP -6.7%, Spinal Fusion 1-2 +38.1%</td>
+      <td>Volumes should not shift disproportionately toward surgery</td>
+      <td>Potential surgical pipeline acceleration: Conservative LBP decreased 6.7% (520→485) while Spinal Fusion 1-2 increased 38.1% (42→58)</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>MSK-001</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>THR</td>
+      <td>implant_cost_ratio</td>
+      <td>22.8%</td>
+      <td><20% for joint_replacement</td>
+      <td>THR: Implant cost is 22.8% of total episode cost ($5,800/$25,400), exceeding 20% benchmark</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>MSK-002</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>Knee Arthroscopy</td>
+      <td>arthroscopy_volume</td>
+      <td>33.1/1,000 members</td>
+      <td>15-25/1,000 for MA population</td>
+      <td>Knee arthroscopy rate of 33.1/1,000 exceeds expected MA range — potential overutilization</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>MSK-005</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>TKR</td>
+      <td>prom_collection_reliability</td>
+      <td>39% collection rate</td>
+      <td>>50% for reliable outcome measurement</td>
+      <td>TKR: PROM collection rate of 39% renders outcome measures unreliable</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>MSK-006</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>THR</td>
+      <td>prom_collection_reliability</td>
+      <td>41% collection rate</td>
+      <td>>50% for reliable outcome measurement</td>
+      <td>THR: PROM collection rate of 41% renders outcome measures unreliable</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>MSK-007</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 1-2</td>
+      <td>prom_collection_reliability</td>
+      <td>38% collection rate</td>
+      <td>>50% for reliable outcome measurement</td>
+      <td>Spinal Fusion 1-2: PROM collection rate of 38% renders outcome measures unreliable</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>MSK-008</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 3+</td>
+      <td>prom_collection_reliability</td>
+      <td>35% collection rate</td>
+      <td>>50% for reliable outcome measurement</td>
+      <td>Spinal Fusion 3+: PROM collection rate of 35% renders outcome measures unreliable</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>MSK-009</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>Knee Arthroscopy</td>
+      <td>prom_collection_reliability</td>
+      <td>42% collection rate</td>
+      <td>>50% for reliable outcome measurement</td>
+      <td>Knee Arthroscopy: PROM collection rate of 42% renders outcome measures unreliable</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>MSK-010</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>Rotator Cuff</td>
+      <td>prom_collection_reliability</td>
+      <td>40% collection rate</td>
+      <td>>50% for reliable outcome measurement</td>
+      <td>Rotator Cuff: PROM collection rate of 40% renders outcome measures unreliable</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>CROSS-005</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>ONC-2024-001</td>
+      <td>Lung NSCLC 1L</td>
+      <td>pathway_cost_correlation</td>
+      <td>adherence=68%, cost overrun=12.7%</td>
+      <td>Pathway adherence >75% when cost exceeds target by >10%</td>
+      <td>Lung NSCLC 1L: Cost overrun of 12.7% correlated with pathway adherence of only 68%</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>CROSS-006</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>ONC-2024-001</td>
+      <td>Colorectal Metastatic 1L</td>
+      <td>pathway_cost_correlation</td>
+      <td>adherence=64%, cost overrun=13.2%</td>
+      <td>Pathway adherence >75% when cost exceeds target by >10%</td>
+      <td>Colorectal Metastatic 1L: Cost overrun of 13.2% correlated with pathway adherence of only 64%</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>CROSS-007</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>ONC-2024-001</td>
+      <td>End-of-Life Care</td>
+      <td>eol_systemic_failure</td>
+      <td>5/5 EOL metrics failing</td>
+      <td><3 EOL metric failures</td>
+      <td>Systemic palliative care integration failure: 5 of 5 EOL metrics are failing simultaneously</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>CROSS-008</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>cross_metric</td>
+      <td>ONC-2024-001</td>
+      <td>Quality Gate</td>
+      <td>quality_gate_proximity</td>
+      <td>composite 53.0% (53/100)</td>
+      <td>gate minimum 55%</td>
+      <td>Quality gate FAILURE: composite 53.0% is 2.0 points below the 55% minimum — $0 in shared savings at risk</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-001</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Breast Metastatic 1L</td>
+      <td>pathway_cost_correlation</td>
+      <td>adherence=72%, overrun=7.8%</td>
+      <td>pathway adherence >80%</td>
+      <td>Breast Metastatic 1L: Non-pathway regimens cost $121,429/episode vs $95,000 pathway (+28%), driving $211,429 in excess cost</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-002</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Lung NSCLC 1L</td>
+      <td>pathway_cost_correlation</td>
+      <td>adherence=68%, overrun=12.7%</td>
+      <td>pathway adherence >80%</td>
+      <td>Lung NSCLC 1L: Non-pathway regimens cost $146,563/episode vs $105,000 pathway (+40%), driving $540,313 in excess cost</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-003</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Colorectal Metastatic 1L</td>
+      <td>pathway_cost_correlation</td>
+      <td>adherence=64%, overrun=13.2%</td>
+      <td>pathway adherence >80%</td>
+      <td>Colorectal Metastatic 1L: Non-pathway regimens cost $112,000/episode vs $82,000 pathway (+37%), driving $300,000 in excess cost</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-004</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Drug Detail</td>
+      <td>biosimilar_savings_opportunity</td>
+      <td>Trastuzumab (Herceptin): 89% brand utilization</td>
+      <td>brand utilization <50%</td>
+      <td>Trastuzumab (Herceptin): 65 brand claims at $4,800/claim vs biosimilar at $2,200/claim — $169,000 savings opportunity ($520/episode)</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-008</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>End-of-Life Care</td>
+      <td>acp_root_cause</td>
+      <td>ACP rate 44.6%, 5/5 EOL metrics failing</td>
+      <td>ACP >50% to support EOL quality metrics</td>
+      <td>Advance Care Planning (44.6%) is the root cause of systemic EOL metric failure — 5/5 EOL measures failing</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-010</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Breast Volume</td>
+      <td>episode_volume_vs_incidence</td>
+      <td>Breast: 26.7/1,000</td>
+      <td>2.0-4.5/1,000 (expected 3.2/1,000)</td>
+      <td>Breast episode rate of 26.7/1,000 is >9.0/1,000 — potential attribution problem</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-011</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Lung Volume</td>
+      <td>episode_volume_vs_incidence</td>
+      <td>Lung: 13.8/1,000</td>
+      <td>1.5-3.5/1,000 (expected 2.4/1,000)</td>
+      <td>Lung episode rate of 13.8/1,000 is >7.0/1,000 — potential attribution problem</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-012</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Colorectal Volume</td>
+      <td>episode_volume_vs_incidence</td>
+      <td>Colorectal: 13.3/1,000</td>
+      <td>1.0-2.5/1,000 (expected 1.6/1,000)</td>
+      <td>Colorectal episode rate of 13.3/1,000 is >5.0/1,000 — potential attribution problem</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-013</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Prostate Volume</td>
+      <td>episode_volume_vs_incidence</td>
+      <td>Prostate: 14.0/1,000</td>
+      <td>1.5-3.0/1,000 (expected 2.1/1,000)</td>
+      <td>Prostate episode rate of 14.0/1,000 is >6.0/1,000 — potential attribution problem</td>
+    </tr>
+    
+    <tr class="flag-row red-row">
+      <td>ONC-014</td>
+      <td><span class="badge RED">RED</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Quality Gate</td>
+      <td>quality_gate_improvement_path</td>
+      <td>composite 53.0%, need 55%, $0 at risk</td>
+      <td>composite >= 55%</td>
+      <td>Quality gate 2.0 points from passing — $0 at risk. Easiest improvement: Patient Experience (Top Box) (8/10, gap=2pts); Biomarker Testing (NSCLC) (7/10, gap=3pts); Hospice Enrollment (Decedents) (5/10, gap=5pts)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-001</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>TKR</td>
+      <td>prom_collection_rate</td>
+      <td>0.39</td>
+      <td>expected ~0.65 (range [0.3, 0.95])</td>
+      <td>prom_collection_rate = 0.39 is within bounds but significantly deviates from expected 0.65 for TKR</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-002</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 1-2</td>
+      <td>prom_collection_rate</td>
+      <td>0.38</td>
+      <td>expected ~0.65 (range [0.3, 0.95])</td>
+      <td>prom_collection_rate = 0.38 is within bounds but significantly deviates from expected 0.65 for Spinal Fusion 1-2</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-003</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 3+</td>
+      <td>prom_collection_rate</td>
+      <td>0.35</td>
+      <td>expected ~0.65 (range [0.3, 0.95])</td>
+      <td>prom_collection_rate = 0.35 is within bounds but significantly deviates from expected 0.65 for Spinal Fusion 3+</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-004</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>TKR</td>
+      <td>er_visit_rate_90d</td>
+      <td>0.14</td>
+      <td>target 0.08</td>
+      <td>er_visit_rate_90d = 0.14 exceeds target 0.08 for TKR (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-005</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>TKR</td>
+      <td>ssi_rate</td>
+      <td>0.021</td>
+      <td>target 0.02</td>
+      <td>ssi_rate = 0.021 exceeds target 0.02 for TKR (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-006</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 1-2</td>
+      <td>readmission_rate</td>
+      <td>0.065</td>
+      <td>target 0.05</td>
+      <td>readmission_rate = 0.065 exceeds target 0.05 for Spinal Fusion 1-2 (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-007</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 1-2</td>
+      <td>er_visit_rate_90d</td>
+      <td>0.1</td>
+      <td>target 0.08</td>
+      <td>er_visit_rate_90d = 0.1 exceeds target 0.08 for Spinal Fusion 1-2 (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-008</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 1-2</td>
+      <td>ssi_rate</td>
+      <td>0.028</td>
+      <td>target 0.02</td>
+      <td>ssi_rate = 0.028 exceeds target 0.02 for Spinal Fusion 1-2 (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-009</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 1-2</td>
+      <td>revision_rate_12mo</td>
+      <td>0.022</td>
+      <td>target 0.02</td>
+      <td>revision_rate_12mo = 0.022 exceeds target 0.02 for Spinal Fusion 1-2 (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-010</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 3+</td>
+      <td>readmission_rate</td>
+      <td>0.085</td>
+      <td>target 0.05</td>
+      <td>readmission_rate = 0.085 exceeds target 0.05 for Spinal Fusion 3+ (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-011</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 3+</td>
+      <td>er_visit_rate_90d</td>
+      <td>0.12</td>
+      <td>target 0.08</td>
+      <td>er_visit_rate_90d = 0.12 exceeds target 0.08 for Spinal Fusion 3+ (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-012</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 3+</td>
+      <td>ssi_rate</td>
+      <td>0.035</td>
+      <td>target 0.02</td>
+      <td>ssi_rate = 0.035 exceeds target 0.02 for Spinal Fusion 3+ (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-013</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 3+</td>
+      <td>revision_rate_12mo</td>
+      <td>0.03</td>
+      <td>target 0.02</td>
+      <td>revision_rate_12mo = 0.03 exceeds target 0.02 for Spinal Fusion 3+ (but within acceptable range)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>MSK-003</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 1-2</td>
+      <td>opioid_mme_discharge</td>
+      <td>55.0 MME</td>
+      <td><50 MME (CDC guideline-informed)</td>
+      <td>Spinal Fusion 1-2: Average discharge opioid prescription of 55.0 MME exceeds 50 MME threshold</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>MSK-004</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>MSK-2024-001</td>
+      <td>Spinal Fusion 3+</td>
+      <td>opioid_mme_discharge</td>
+      <td>65.0 MME</td>
+      <td><50 MME (CDC guideline-informed)</td>
+      <td>Spinal Fusion 3+: Average discharge opioid prescription of 65.0 MME exceeds 50 MME threshold</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>SCHEMA-003</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>schema</td>
+      <td>ONC-2024-001</td>
+      <td>ALL</td>
+      <td>er_visit_rate</td>
+      <td>max=40.0</td>
+      <td>0-1 proportion scale</td>
+      <td>Rate column 'er_visit_rate' appears to be on 0-100 scale instead of 0-1</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-014</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>ONC-2024-001</td>
+      <td>Breast Metastatic 1L</td>
+      <td>pathway_adherence_rate</td>
+      <td>0.72</td>
+      <td>expected 0.75</td>
+      <td>Pathway adherence 72% below expected 75% for Breast Metastatic 1L</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-015</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>ONC-2024-001</td>
+      <td>Breast Metastatic 2L+</td>
+      <td>pathway_adherence_rate</td>
+      <td>0.65</td>
+      <td>expected 0.75</td>
+      <td>Pathway adherence 65% below expected 75% for Breast Metastatic 2L+</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-016</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>ONC-2024-001</td>
+      <td>Lung NSCLC 1L</td>
+      <td>pathway_adherence_rate</td>
+      <td>0.68</td>
+      <td>expected 0.72</td>
+      <td>Pathway adherence 68% below expected 72% for Lung NSCLC 1L</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-017</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>ONC-2024-001</td>
+      <td>Lung NSCLC 2L+</td>
+      <td>pathway_adherence_rate</td>
+      <td>0.62</td>
+      <td>expected 0.65</td>
+      <td>Pathway adherence 62% below expected 65% for Lung NSCLC 2L+</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>RANGE-018</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>range</td>
+      <td>ONC-2024-001</td>
+      <td>Colorectal Metastatic 1L</td>
+      <td>pathway_adherence_rate</td>
+      <td>0.64</td>
+      <td>expected 0.68</td>
+      <td>Pathway adherence 64% below expected 68% for Colorectal Metastatic 1L</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>CROSS-009</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>cross_metric</td>
+      <td>ONC-2024-001</td>
+      <td>Drug Detail</td>
+      <td>site_of_service_cost</td>
+      <td>Bevacizumab (Avastin): 85% HOPD, $6,500/claim</td>
+      <td>HOPD <60% for office-administrable drugs</td>
+      <td>Bevacizumab (Avastin): 85% HOPD administration for a drug costing $6,500/claim — estimated $83,362 in excess facility costs</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>ONC-005</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Drug Detail</td>
+      <td>biosimilar_savings_opportunity</td>
+      <td>Bevacizumab (Avastin): 73% brand utilization</td>
+      <td>brand utilization <50%</td>
+      <td>Bevacizumab (Avastin): 95 brand claims at $6,500/claim vs biosimilar at $3,500/claim — $285,000 savings opportunity ($877/episode)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>ONC-006</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Drug Detail</td>
+      <td>biosimilar_savings_opportunity</td>
+      <td>Pegfilgrastim (Neulasta): 67% brand utilization</td>
+      <td>brand utilization <50%</td>
+      <td>Pegfilgrastim (Neulasta): 92 brand claims at $5,000/claim vs biosimilar at $2,500/claim — $230,000 savings opportunity ($708/episode)</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>ONC-007</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Drug Detail</td>
+      <td>site_of_service_opportunity</td>
+      <td>Bevacizumab (Avastin): 85% HOPD, $6,500/claim</td>
+      <td>HOPD <60% for office-administrable drugs</td>
+      <td>Bevacizumab (Avastin): 85% administered at HOPD vs 40% target — estimated $138,937 in excess facility costs</td>
+    </tr>
+    
+    <tr class="flag-row yellow-row">
+      <td>ONC-009</td>
+      <td><span class="badge YELLOW">YELLOW</span></td>
+      <td>specialty</td>
+      <td>ONC-2024-001</td>
+      <td>Drug Detail</td>
+      <td>novel_therapy_carveout</td>
+      <td>$62,500 in novel therapy costs</td>
+      <td>These costs may be carved out per contract terms</td>
+      <td>Novel therapy carve-out: $62,500 in costs from 1 drug(s) approved within 18-month lookback may be excluded from savings calculation</td>
+    </tr>
+    
+    <tr class="flag-row green-row">
+      <td>SCHEMA-001</td>
+      <td><span class="badge GREEN">GREEN</span></td>
+      <td>schema</td>
+      <td>MSK-2024-001</td>
+      <td>ALL</td>
+      <td>schema_check</td>
+      <td>PASS</td>
+      <td>All checks pass</td>
+      <td>Schema validation passed for msk_episodes</td>
+    </tr>
+    
+    <tr class="flag-row green-row">
+      <td>SCHEMA-002</td>
+      <td><span class="badge GREEN">GREEN</span></td>
+      <td>schema</td>
+      <td>MSK-2024-001</td>
+      <td>ALL</td>
+      <td>schema_check</td>
+      <td>PASS</td>
+      <td>All checks pass</td>
+      <td>Schema validation passed for msk_quality</td>
+    </tr>
+    
+    <tr class="flag-row green-row">
+      <td>SCHEMA-004</td>
+      <td><span class="badge GREEN">GREEN</span></td>
+      <td>schema</td>
+      <td>ONC-2024-001</td>
+      <td>ALL</td>
+      <td>schema_check</td>
+      <td>PASS</td>
+      <td>All checks pass</td>
+      <td>Schema validation passed for onc_quality</td>
+    </tr>
+    
+  </table>
+</details>
+
+<hr style="margin-top: 40px; border: none; border-top: 1px solid #ddd;">
+<p class="timestamp">VBC Validation Engine | Report generated 2026-02-16 10:42:05</p>
+
+</body>
+</html>

@@ -1,5 +1,7 @@
 # Specialty VBC Report Validation Engine
 
+**[View the live validation report](https://tkulczy2.github.io/vbcvalidation/)**
+
 ## What This Tool Produces
 
 This tool reviews performance reports for specialty value-based care (VBC) contracts and generates a single HTML report that answers the question: **"Is this data trustworthy, and what should we discuss at the next Joint Operating Committee meeting?"**
