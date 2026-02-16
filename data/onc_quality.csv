@@ -1,0 +1,12 @@
+measure_name,measure_id,numerator,denominator,rate,target,max_points,points_earned,prior_year_rate,national_benchmark
+Pathway Adherence (Overall),ONC-Q-001,238,325,0.732,0.80,20,12,,0.780
+Chemo Within 14 Days of Death,ONC-Q-002,11,58,0.190,0.10,10,3,,0.095
+Hospice Enrollment (Decedents),ONC-Q-003,25,58,0.431,0.55,10,5,,0.580
+Hospice >7 Days Before Death,ONC-Q-004,16,58,0.276,0.40,10,3,,0.420
+ICU Within 30 Days of Death,ONC-Q-005,14,58,0.241,0.15,10,2,,0.140
+ER Within 30 Days of Death,ONC-Q-006,19,58,0.328,0.25,10,5,,0.260
+Biomarker Testing (NSCLC),ONC-Q-007,55,66,0.833,0.90,10,7,,0.910
+Biosimilar Utilization,ONC-Q-008,42,85,0.494,0.70,10,4,,0.680
+Advance Care Planning Documented,ONC-Q-009,145,325,0.446,0.65,10,4,,0.620
+Patient Experience (Top Box),ONC-Q-010,268,325,0.825,0.80,10,8,,0.810
+Composite Quality Score,ONC-Q-COMP,,,0.530,0.55,100,53,,0.720

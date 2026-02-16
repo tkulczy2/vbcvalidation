@@ -1,0 +1,9 @@
+episode_type,episode_count,avg_episode_cost,target_price,total_cost,total_target,variance_pct,implant_cost_avg,facility_cost_avg,professional_cost_avg,post_acute_cost_avg,readmission_cost_avg,discharge_home_pct,discharge_snf_pct,discharge_irf_pct,discharge_other_pct,readmission_rate,er_visit_rate_90d,ssi_rate,revision_rate_12mo,avg_los_days,avg_opioid_mme_discharge,prom_collection_rate,prom_improvement_rate,prior_year_episode_count,prior_year_avg_cost,risk_score_actual,risk_score_expected
+TKR,142,26800,28000,3805600,3976000,-0.0429,5200,12400,4100,4200,900,0.74,0.18,0.05,0.03,0.046,0.14,0.021,0.017,2.8,42,0.39,0.645,138,27200,1.05,1.04
+THR,95,25400,27500,2413000,2612500,-0.0764,5800,11800,3900,3100,800,0.71,0.20,0.06,0.03,0.042,0.08,0.019,0.015,2.5,38,0.41,0.68,90,26100,1.03,1.02
+Spinal Fusion 1-2,58,41200,38000,2389600,2204000,0.0842,8500,18200,6800,6400,1300,0.58,0.28,0.10,0.04,0.065,0.10,0.028,0.022,3.8,55,0.38,0.60,42,39800,1.08,1.05
+Spinal Fusion 3+,18,78500,72000,1413000,1296000,0.0903,16200,32000,12800,14500,3000,0.32,0.38,0.22,0.08,0.085,0.12,0.035,0.030,5.2,65,0.35,0.55,15,75200,1.15,1.12
+Knee Arthroscopy,205,8400,9200,1722000,1886000,-0.0870,350,4800,2200,800,250,0.95,0.02,0.00,0.03,0.015,0.04,,,1.0,25,0.42,0.70,195,8800,1.01,1.01
+Rotator Cuff,72,16800,18000,1209600,1296000,-0.0667,2100,7500,3600,2800,800,0.82,0.08,0.04,0.06,0.038,0.06,0.015,0.012,1.5,35,0.40,0.66,68,17200,1.04,1.03
+Conservative LBP,485,4100,4800,1988500,2328000,-0.1458,,1200,1800,1100,,,,,,,,,,,,0.38,0.62,520,4600,0.98,0.99
+Conservative Joint,320,3200,3500,1024000,1120000,-0.0857,,900,1500,800,,,,,,,,,,,,0.36,0.58,310,3400,0.97,0.98

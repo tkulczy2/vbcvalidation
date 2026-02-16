@@ -1,0 +1,19 @@
+drug_category,drug_name,is_biosimilar,is_pathway,cancer_types_used,total_claims,total_cost,avg_cost_per_claim,site_of_service_office_pct,site_of_service_hopd_pct,site_of_service_home_pct,prior_year_total_cost,prior_year_claims,fda_approval_date,is_novel_therapy
+Checkpoint Inhibitor,Pembrolizumab (Keytruda),False,True,"Lung NSCLC;Breast",185,2035000,11000,0.52,0.48,0.00,1820000,165,2014-09-04,False
+Checkpoint Inhibitor,Nivolumab (Opdivo),False,True,"Lung NSCLC",42,390600,9300,0.50,0.50,0.00,368000,40,2014-12-22,False
+HER2 Targeted,Trastuzumab (Herceptin),False,True,"Breast",65,312000,4800,0.42,0.58,0.00,345000,72,1998-09-25,False
+HER2 Targeted,Trastuzumab-dkst (Ogivri),True,True,"Breast",8,17600,2200,0.55,0.45,0.00,12000,5,2017-12-01,False
+VEGF Inhibitor,Bevacizumab (Avastin),False,True,"Lung NSCLC;Colorectal;Breast",95,617500,6500,0.15,0.85,0.00,680000,105,2004-02-26,False
+VEGF Inhibitor,Bevacizumab-awwb (Mvasi),True,True,"Colorectal",35,122500,3500,0.45,0.55,0.00,98000,28,2017-09-14,False
+Chemotherapy,Carboplatin,False,True,"Lung NSCLC;Breast",120,96000,800,0.55,0.45,0.00,88000,110,1989-03-03,False
+Chemotherapy,Paclitaxel,False,True,"Lung NSCLC;Breast;Colorectal",145,159500,1100,0.52,0.48,0.00,148000,135,1992-12-29,False
+Chemotherapy,Docetaxel,False,True,"Breast;Prostate",55,71500,1300,0.50,0.50,0.00,65000,50,1996-05-14,False
+Chemotherapy,FOLFOX (Oxaliplatin+5FU+LV),False,True,"Colorectal",88,220000,2500,0.48,0.52,0.00,205000,82,2002-08-09,False
+CDK4/6 Inhibitor,Palbociclib (Ibrance),False,True,"Breast",48,672000,14000,,,1.00,645000,45,2015-02-03,False
+CDK4/6 Inhibitor,Ribociclib (Kisqali),False,True,"Breast",22,286000,13000,,,1.00,258000,20,2017-03-13,False
+Antiandrogen,Enzalutamide (Xtandi),False,True,"Prostate",38,494000,13000,,,1.00,462000,35,2012-08-31,False
+ADC,Trastuzumab deruxtecan (Enhertu),False,True,"Breast;Lung NSCLC",15,225000,15000,0.48,0.52,0.00,85000,6,2019-12-20,False
+ADC,Sacituzumab govitecan (Trodelvy),False,True,"Breast",12,192000,16000,0.45,0.55,0.00,72000,4,2020-04-22,False
+Checkpoint Inhibitor,Dostarlimab (Jemperli),False,True,"Colorectal",5,62500,12500,0.40,0.60,0.00,,0,2023-08-10,True
+Supportive Care,Pegfilgrastim (Neulasta),False,True,"Breast;Lung NSCLC;Colorectal",92,460000,5000,0.35,0.45,0.20,485000,98,2002-01-31,False
+Supportive Care,Pegfilgrastim-jmdb (Fulphila),True,True,"Breast;Lung NSCLC;Colorectal",45,112500,2500,0.40,0.40,0.20,82000,32,2018-06-04,False

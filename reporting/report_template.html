@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VBC Validation Report</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #333; background: #fff; line-height: 1.5;
+    max-width: 1200px; margin: 0 auto; padding: 20px;
+  }
+  h1 { color: #003366; font-size: 1.8em; margin-bottom: 4px; }
+  h2 { color: #003366; font-size: 1.4em; margin: 28px 0 12px; border-bottom: 2px solid #003366; padding-bottom: 4px; }
+  h3 { color: #0066CC; font-size: 1.15em; margin: 20px 0 8px; }
+  h4 { color: #444; font-size: 1.0em; margin: 12px 0 6px; }
+  .subtitle { color: #666; font-size: 0.95em; margin-bottom: 16px; }
+  .timestamp { color: #999; font-size: 0.8em; text-align: right; margin-bottom: 20px; }
+
+  /* Summary cards */
+  .cards { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0; }
+  .card {
+    border: 1px solid #ddd; border-radius: 6px; padding: 14px 18px;
+    flex: 1; min-width: 180px; background: #fafbfc;
+  }
+  .card .label { font-size: 0.8em; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+  .card .value { font-size: 1.5em; font-weight: 700; color: #003366; margin-top: 2px; }
+  .card .value.red { color: #DC3545; }
+  .card .value.green { color: #28A745; }
+
+  /* Severity badges */
+  .badge {
+    display: inline-block; padding: 2px 10px; border-radius: 12px;
+    font-size: 0.75em; font-weight: 700; color: #fff; letter-spacing: 0.5px;
+  }
+  .badge.RED { background: #DC3545; }
+  .badge.YELLOW { background: #FFC107; color: #333; }
+  .badge.GREEN { background: #28A745; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 18px; font-size: 0.9em; }
+  th { background: #003366; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+  td { padding: 7px 10px; border-bottom: 1px solid #e0e0e0; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  tr:hover td { background: #eef3f8; }
+
+  /* Flag rows */
+  .flag-row td:first-child { width: 80px; text-align: center; }
+  .flag-row.red-row { border-left: 4px solid #DC3545; }
+  .flag-row.yellow-row { border-left: 4px solid #FFC107; }
+  .flag-row.green-row { border-left: 4px solid #28A745; }
+
+  /* Details/expandable */
+  details { margin: 8px 0; border: 1px solid #e0e0e0; border-radius: 4px; }
+  summary {
+    padding: 10px 14px; cursor: pointer; background: #f8f9fa;
+    font-weight: 600; color: #003366;
+  }
+  summary:hover { background: #eef3f8; }
+  details > div, details > table { padding: 0 14px 14px; }
+
+  /* Diagnostic narrative */
+  .narrative { background: #f0f7ff; border-left: 4px solid #0066CC; padding: 14px 18px; margin: 10px 0; border-radius: 0 4px 4px 0; }
+  .narrative h4 { color: #003366; margin-top: 0; }
+  .narrative ul { margin: 6px 0 6px 20px; }
+  .narrative .cause-item { margin: 4px 0; }
+  .narrative .likelihood { font-size: 0.8em; font-weight: 600; padding: 1px 6px; border-radius: 3px; }
+  .likelihood-high { background: #DC3545; color: #fff; }
+  .likelihood-medium { background: #FFC107; color: #333; }
+  .likelihood-low { background: #28A745; color: #fff; }
+
+  /* Quality gate alert */
+  .gate-alert {
+    background: #fff3cd; border: 2px solid #FFC107; border-radius: 6px;
+    padding: 14px 18px; margin: 12px 0; font-weight: 600;
+  }
+  .gate-alert.fail { background: #f8d7da; border-color: #DC3545; }
+
+  /* Contract section */
+  .contract-section { margin: 30px 0; padding-top: 10px; }
+  .contract-header {
+    background: #003366; color: #fff; padding: 12px 18px;
+    border-radius: 6px 6px 0 0; margin-bottom: 0;
+  }
+  .contract-header h2 { color: #fff; border: none; margin: 0; font-size: 1.2em; }
+  .contract-body { border: 1px solid #ddd; border-top: none; padding: 16px 18px; border-radius: 0 0 6px 6px; }
+
+  .money { font-family: "Courier New", monospace; }
+  .text-right { text-align: right; }
+
+  @media print {
+    body { font-size: 11pt; }
+    .cards { page-break-inside: avoid; }
+    details[open] > summary { font-size: 11pt; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Specialty VBC Report Validation</h1>
+<p class="subtitle">Automated Validation &amp; AI Diagnostic Report</p>
+<p class="timestamp">Generated: {{ generation_time }}</p>
+
+<!-- ===== EXECUTIVE SUMMARY ===== -->
+<h2>Executive Summary</h2>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">Total Flags</div>
+    <div class="value">{{ all_flags|length }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Critical (RED)</div>
+    <div class="value red">{{ total_severity.RED }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Warning (YELLOW)</div>
+    <div class="value" style="color:#FFC107">{{ total_severity.YELLOW }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Passing (GREEN)</div>
+    <div class="value green">{{ total_severity.GREEN }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Contracts Reviewed</div>
+    <div class="value">2</div>
+  </div>
+</div>
+
+<!-- ===== MSK CONTRACT ===== -->
+<div class="contract-section">
+<div class="contract-header">
+  <h2>{{ msk_contract.contract_name }}</h2>
+</div>
+<div class="contract-body">
+
+<p><strong>Type:</strong> {{ msk_contract.contract_type }} | <strong>LOB:</strong> {{ msk_contract.lob }} | <strong>Period:</strong> {{ msk_contract.performance_period }} | <strong>Members:</strong> {{ "{:,}".format(msk_contract.attributed_members) }}</p>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">Total Cost</div>
+    <div class="value money">${{ "{:,.0f}".format(msk_financial.total_cost) }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Total Target</div>
+    <div class="value money">${{ "{:,.0f}".format(msk_financial.total_target) }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Variance</div>
+    <div class="value money {% if msk_financial.variance > 0 %}red{% else %}green{% endif %}">
+      ${{ "{:,.0f}".format(msk_financial.variance) }} ({{ "{:.1%}".format(msk_financial.variance_pct) }})
+    </div>
+  </div>
+  <div class="card">
+    <div class="label">Provider Share</div>
+    <div class="value money {% if msk_financial.provider_share >= 0 %}green{% else %}red{% endif %}">
+      ${{ "{:,.0f}".format(msk_financial.provider_share) }}
+    </div>
+  </div>
+</div>
+
+<p>
+  <span class="badge RED">{{ msk_severity.RED }} RED</span>
+  <span class="badge YELLOW">{{ msk_severity.YELLOW }} YELLOW</span>
+  <span class="badge GREEN">{{ msk_severity.GREEN }} GREEN</span>
+</p>
+
+{% if msk_financial.quality_gate.pass is not none %}
+{% if msk_financial.quality_gate.pass %}
+<div class="gate-alert">Quality Gate: PASSED — Composite {{ "{:.1f}".format(msk_financial.quality_gate.composite_score) }}% (minimum {{ msk_financial.quality_gate.gate_minimum }}%)</div>
+{% else %}
+<div class="gate-alert fail">Quality Gate: FAILED — Composite {{ "{:.1f}".format(msk_financial.quality_gate.composite_score) }}% (minimum {{ msk_financial.quality_gate.gate_minimum }}%) — ${{ "{:,.0f}".format(msk_financial.forfeited_savings) }} in shared savings forfeited</div>
+{% endif %}
+{% endif %}
+
+<!-- MSK Episode Detail -->
+<h3>Episode Performance</h3>
+<table>
+  <tr>
+    <th>Episode Type</th><th class="text-right">Count</th><th class="text-right">Avg Cost</th>
+    <th class="text-right">Target</th><th class="text-right">Variance</th>
+    <th class="text-right">Prior Yr Cost</th><th class="text-right">Risk Actual</th><th class="text-right">Risk Expected</th>
+  </tr>
+  {% for ep in msk_episodes_data %}
+  <tr>
+    <td>{{ ep.episode_type }}</td>
+    <td class="text-right">{{ ep.episode_count }}</td>
+    <td class="text-right money">${{ "{:,.0f}".format(ep.avg_episode_cost) }}</td>
+    <td class="text-right money">${{ "{:,.0f}".format(ep.target_price) }}</td>
+    <td class="text-right {% if ep.variance_pct > 0 %}red{% endif %}">{{ "{:.1%}".format(ep.variance_pct) }}</td>
+    <td class="text-right money">${{ "{:,.0f}".format(ep.prior_year_avg_cost) if ep.prior_year_avg_cost == ep.prior_year_avg_cost else "N/A" }}</td>
+    <td class="text-right">{{ "{:.3f}".format(ep.risk_score_actual) if ep.risk_score_actual == ep.risk_score_actual else "N/A" }}</td>
+    <td class="text-right">{{ "{:.3f}".format(ep.risk_score_expected) if ep.risk_score_expected == ep.risk_score_expected else "N/A" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<!-- MSK Flags by Episode -->
+{% for ep_type in msk_episode_types %}
+{% if ep_type in flags_by_episode %}
+<details>
+  <summary>{{ ep_type }} — {{ flags_by_episode[ep_type]|length }} flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    {% for f in flags_by_episode[ep_type] %}
+    {% if f.contract_id == "MSK-2024-001" %}
+    <tr class="flag-row {% if f.severity == 'RED' %}red-row{% elif f.severity == 'YELLOW' %}yellow-row{% else %}green-row{% endif %}">
+      <td><span class="badge {{ f.severity }}">{{ f.severity }}</span></td>
+      <td>{{ f.category }}</td>
+      <td>{{ f.metric_name }}</td>
+      <td>{{ f.description }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </table>
+  {% if ep_type in diag_by_episode %}
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> {{ diag_by_episode[ep_type].diagnosis_summary }}</p>
+    {% if diag_by_episode[ep_type].probable_causes %}
+    <h4>Probable Causes</h4>
+    <ul>
+    {% for cause in diag_by_episode[ep_type].probable_causes %}
+      <li class="cause-item">
+        <span class="likelihood likelihood-{{ cause.likelihood }}">{{ cause.likelihood }}</span>
+        {{ cause.cause }}
+        <br><em>Evidence: {{ cause.evidence }}</em>
+      </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% if diag_by_episode[ep_type].questions_for_provider %}
+    <h4>Questions for Provider (JOC)</h4>
+    <ul>{% for q in diag_by_episode[ep_type].questions_for_provider %}<li>{{ q }}</li>{% endfor %}</ul>
+    {% endif %}
+    {% if diag_by_episode[ep_type].recommended_interventions %}
+    <h4>Recommended Interventions</h4>
+    <ul>
+    {% for r in diag_by_episode[ep_type].recommended_interventions %}
+      <li><strong>{{ r.intervention }}</strong> ({{ r.timeframe }}) — {{ r.expected_impact }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% if diag_by_episode[ep_type].contract_implications %}
+    <p><strong>Contract Implications:</strong> {{ diag_by_episode[ep_type].contract_implications }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</details>
+{% endif %}
+{% endfor %}
+
+<!-- MSK Quality Scorecard -->
+<h3>Quality Scorecard</h3>
+<table>
+  <tr>
+    <th>Measure</th><th class="text-right">Numerator</th><th class="text-right">Denominator</th>
+    <th class="text-right">Rate</th><th>Target</th>
+    <th class="text-right">Points</th><th class="text-right">Prior Year</th>
+  </tr>
+  {% for q in msk_quality_data %}
+  <tr>
+    <td>{{ q.measure_name }}</td>
+    <td class="text-right">{{ q.numerator if q.numerator == q.numerator else "—" }}</td>
+    <td class="text-right">{{ q.denominator if q.denominator == q.denominator else "—" }}</td>
+    <td class="text-right">{{ "{:.1%}".format(q.rate) if q.rate == q.rate else "—" }}</td>
+    <td>{{ q.target if q.target == q.target else "—" }}</td>
+    <td class="text-right">{{ q.points_earned }}/{{ q.max_points }}</td>
+    <td class="text-right">{{ "{:.1%}".format(q.prior_year_rate) if q.prior_year_rate == q.prior_year_rate else "—" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+</div>
+</div>
+
+<!-- ===== ONCOLOGY CONTRACT ===== -->
+<div class="contract-section">
+<div class="contract-header">
+  <h2>{{ onc_contract.contract_name }}</h2>
+</div>
+<div class="contract-body">
+
+<p><strong>Type:</strong> {{ onc_contract.contract_type }} | <strong>LOB:</strong> {{ onc_contract.lob }} | <strong>Period:</strong> {{ onc_contract.performance_period }} | <strong>Members:</strong> {{ "{:,}".format(onc_contract.attributed_members) }}</p>
+
+<div class="cards">
+  <div class="card">
+    <div class="label">Total Cost</div>
+    <div class="value money">${{ "{:,.0f}".format(onc_financial.total_cost) }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Total Target</div>
+    <div class="value money">${{ "{:,.0f}".format(onc_financial.total_target) }}</div>
+  </div>
+  <div class="card">
+    <div class="label">Variance</div>
+    <div class="value money {% if onc_financial.variance > 0 %}red{% else %}green{% endif %}">
+      ${{ "{:,.0f}".format(onc_financial.variance) }} ({{ "{:.1%}".format(onc_financial.variance_pct) }})
+    </div>
+  </div>
+  <div class="card">
+    <div class="label">Provider Share</div>
+    <div class="value money {% if onc_financial.provider_share >= 0 %}green{% else %}red{% endif %}">
+      ${{ "{:,.0f}".format(onc_financial.provider_share) }}
+    </div>
+  </div>
+</div>
+
+<p>
+  <span class="badge RED">{{ onc_severity.RED }} RED</span>
+  <span class="badge YELLOW">{{ onc_severity.YELLOW }} YELLOW</span>
+  <span class="badge GREEN">{{ onc_severity.GREEN }} GREEN</span>
+</p>
+
+{% if onc_financial.quality_gate.pass is not none %}
+{% if onc_financial.quality_gate.pass %}
+<div class="gate-alert">Quality Gate: PASSED — Composite {{ "{:.1f}".format(onc_financial.quality_gate.composite_score) }}% (minimum {{ onc_financial.quality_gate.gate_minimum }}%)</div>
+{% else %}
+<div class="gate-alert fail">Quality Gate: FAILED — Composite {{ "{:.1f}".format(onc_financial.quality_gate.composite_score) }}% (minimum {{ onc_financial.quality_gate.gate_minimum }}%) — ${{ "{:,.0f}".format(onc_financial.forfeited_savings) }} in shared savings forfeited</div>
+{% endif %}
+{% endif %}
+
+<!-- Oncology Episode Detail -->
+<h3>Episode Performance</h3>
+<table>
+  <tr>
+    <th>Cancer/Stage/Line</th><th class="text-right">Count</th><th class="text-right">Avg Cost</th>
+    <th class="text-right">Target</th><th class="text-right">Variance</th>
+    <th class="text-right">Pathway Adh.</th><th class="text-right">Biosimilar</th>
+  </tr>
+  {% for ep in onc_episodes_data %}
+  <tr>
+    <td>{{ ep.cancer_type }} {{ ep.stage_group }} {{ ep.line_of_therapy }}</td>
+    <td class="text-right">{{ ep.episode_count }}</td>
+    <td class="text-right money">${{ "{:,.0f}".format(ep.avg_episode_cost) }}</td>
+    <td class="text-right money">${{ "{:,.0f}".format(ep.target_price) }}</td>
+    <td class="text-right {% if ep.variance_pct > 0 %}red{% endif %}">{{ "{:.1%}".format(ep.variance_pct) }}</td>
+    <td class="text-right">{{ "{:.0%}".format(ep.pathway_adherence_rate) }}</td>
+    <td class="text-right">{{ "{:.0%}".format(ep.biosimilar_utilization_rate) if ep.biosimilar_utilization_rate == ep.biosimilar_utilization_rate else "N/A" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<!-- Oncology Flags by Episode -->
+{% for ep_label in onc_episode_labels %}
+{% if ep_label in flags_by_episode %}
+<details>
+  <summary>{{ ep_label }} — {{ flags_by_episode[ep_label]|length }} flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    {% for f in flags_by_episode[ep_label] %}
+    <tr class="flag-row {% if f.severity == 'RED' %}red-row{% elif f.severity == 'YELLOW' %}yellow-row{% else %}green-row{% endif %}">
+      <td><span class="badge {{ f.severity }}">{{ f.severity }}</span></td>
+      <td>{{ f.category }}</td>
+      <td>{{ f.metric_name }}</td>
+      <td>{{ f.description }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% if ep_label in diag_by_episode %}
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> {{ diag_by_episode[ep_label].diagnosis_summary }}</p>
+    {% if diag_by_episode[ep_label].probable_causes %}
+    <h4>Probable Causes</h4>
+    <ul>
+    {% for cause in diag_by_episode[ep_label].probable_causes %}
+      <li class="cause-item">
+        <span class="likelihood likelihood-{{ cause.likelihood }}">{{ cause.likelihood }}</span>
+        {{ cause.cause }}
+        <br><em>Evidence: {{ cause.evidence }}</em>
+      </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% if diag_by_episode[ep_label].questions_for_provider %}
+    <h4>Questions for Provider (JOC)</h4>
+    <ul>{% for q in diag_by_episode[ep_label].questions_for_provider %}<li>{{ q }}</li>{% endfor %}</ul>
+    {% endif %}
+    {% if diag_by_episode[ep_label].recommended_interventions %}
+    <h4>Recommended Interventions</h4>
+    <ul>
+    {% for r in diag_by_episode[ep_label].recommended_interventions %}
+      <li><strong>{{ r.intervention }}</strong> ({{ r.timeframe }}) — {{ r.expected_impact }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% if diag_by_episode[ep_label].contract_implications %}
+    <p><strong>Contract Implications:</strong> {{ diag_by_episode[ep_label].contract_implications }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</details>
+{% endif %}
+{% endfor %}
+
+<!-- Cross-cutting oncology flags -->
+{% set cross_episode_types = ["End-of-Life Care", "Quality Gate", "Drug Detail"] %}
+{% for et in cross_episode_types %}
+{% if et in flags_by_episode %}
+<details>
+  <summary>{{ et }} — {{ flags_by_episode[et]|length }} flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Category</th><th>Metric</th><th>Description</th></tr>
+    {% for f in flags_by_episode[et] %}
+    {% if f.contract_id == "ONC-2024-001" %}
+    <tr class="flag-row {% if f.severity == 'RED' %}red-row{% elif f.severity == 'YELLOW' %}yellow-row{% else %}green-row{% endif %}">
+      <td><span class="badge {{ f.severity }}">{{ f.severity }}</span></td>
+      <td>{{ f.category }}</td>
+      <td>{{ f.metric_name }}</td>
+      <td>{{ f.description }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </table>
+  {% if et in diag_by_episode %}
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> {{ diag_by_episode[et].diagnosis_summary }}</p>
+    {% if diag_by_episode[et].probable_causes %}
+    <h4>Probable Causes</h4>
+    <ul>
+    {% for cause in diag_by_episode[et].probable_causes %}
+      <li class="cause-item">
+        <span class="likelihood likelihood-{{ cause.likelihood }}">{{ cause.likelihood }}</span>
+        {{ cause.cause }}
+        <br><em>Evidence: {{ cause.evidence }}</em>
+      </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% if diag_by_episode[et].contract_implications %}
+    <p><strong>Contract Implications:</strong> {{ diag_by_episode[et].contract_implications }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</details>
+{% endif %}
+{% endfor %}
+
+<!-- Oncology Quality Scorecard -->
+<h3>Quality Scorecard</h3>
+<table>
+  <tr>
+    <th>Measure</th><th class="text-right">Numerator</th><th class="text-right">Denominator</th>
+    <th class="text-right">Rate</th><th>Target</th>
+    <th class="text-right">Points</th><th class="text-right">National Benchmark</th>
+  </tr>
+  {% for q in onc_quality_data %}
+  <tr>
+    <td>{{ q.measure_name }}</td>
+    <td class="text-right">{{ q.numerator if q.numerator == q.numerator else "—" }}</td>
+    <td class="text-right">{{ q.denominator if q.denominator == q.denominator else "—" }}</td>
+    <td class="text-right">{{ "{:.1%}".format(q.rate) if q.rate == q.rate else "—" }}</td>
+    <td>{{ q.target if q.target == q.target else "—" }}</td>
+    <td class="text-right">{{ q.points_earned }}/{{ q.max_points }}</td>
+    <td class="text-right">{{ "{:.1%}".format(q.national_benchmark) if q.national_benchmark == q.national_benchmark else "—" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<!-- Drug Detail -->
+<h3>Drug Utilization Detail</h3>
+<table>
+  <tr>
+    <th>Drug</th><th>Category</th><th>Biosimilar</th>
+    <th class="text-right">Claims</th><th class="text-right">Total Cost</th>
+    <th class="text-right">Avg/Claim</th>
+    <th class="text-right">Office %</th><th class="text-right">HOPD %</th>
+  </tr>
+  {% for d in onc_drugs_data %}
+  <tr>
+    <td>{{ d.drug_name }}</td>
+    <td>{{ d.drug_category }}</td>
+    <td>{{ "Yes" if d.is_biosimilar else "No" }}</td>
+    <td class="text-right">{{ d.total_claims }}</td>
+    <td class="text-right money">${{ "{:,.0f}".format(d.total_cost) }}</td>
+    <td class="text-right money">${{ "{:,.0f}".format(d.avg_cost_per_claim) }}</td>
+    <td class="text-right">{{ "{:.0%}".format(d.site_of_service_office_pct) if d.site_of_service_office_pct == d.site_of_service_office_pct else "N/A" }}</td>
+    <td class="text-right">{{ "{:.0%}".format(d.site_of_service_hopd_pct) if d.site_of_service_hopd_pct == d.site_of_service_hopd_pct else "N/A" }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+</div>
+</div>
+
+<!-- ===== CROSS-CUTTING FINDINGS ===== -->
+{% set cross_keys = [] %}
+{% for et in flags_by_episode %}
+  {% if et not in msk_episode_types and et not in onc_episode_labels and et not in cross_episode_types %}
+    {% if cross_keys.append(et) %}{% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if cross_keys %}
+<h2>Cross-Cutting Findings</h2>
+{% for et in cross_keys %}
+<details open>
+  <summary>{{ et }} — {{ flags_by_episode[et]|length }} flag(s)</summary>
+  <table>
+    <tr><th>Severity</th><th>Contract</th><th>Metric</th><th>Description</th></tr>
+    {% for f in flags_by_episode[et] %}
+    <tr class="flag-row {% if f.severity == 'RED' %}red-row{% elif f.severity == 'YELLOW' %}yellow-row{% else %}green-row{% endif %}">
+      <td><span class="badge {{ f.severity }}">{{ f.severity }}</span></td>
+      <td>{{ f.contract_id }}</td>
+      <td>{{ f.metric_name }}</td>
+      <td>{{ f.description }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% if et in diag_by_episode %}
+  <div class="narrative">
+    <h4>AI Diagnostic Assessment</h4>
+    <p><strong>Summary:</strong> {{ diag_by_episode[et].diagnosis_summary }}</p>
+    {% if diag_by_episode[et].contract_implications %}
+    <p><strong>Contract Implications:</strong> {{ diag_by_episode[et].contract_implications }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</details>
+{% endfor %}
+{% endif %}
+
+<!-- ===== APPENDIX: VALIDATION LOG ===== -->
+<h2>Appendix: Complete Validation Log</h2>
+<p class="subtitle">{{ all_flags|length }} total flags across all contracts</p>
+
+<details>
+  <summary>Show full validation log</summary>
+  <table>
+    <tr>
+      <th>ID</th><th>Severity</th><th>Category</th><th>Contract</th>
+      <th>Episode</th><th>Metric</th><th>Value</th><th>Expected</th><th>Description</th>
+    </tr>
+    {% for f in all_flags %}
+    <tr class="flag-row {% if f.severity == 'RED' %}red-row{% elif f.severity == 'YELLOW' %}yellow-row{% else %}green-row{% endif %}">
+      <td>{{ f.flag_id }}</td>
+      <td><span class="badge {{ f.severity }}">{{ f.severity }}</span></td>
+      <td>{{ f.category }}</td>
+      <td>{{ f.contract_id }}</td>
+      <td>{{ f.episode_type }}</td>
+      <td>{{ f.metric_name }}</td>
+      <td>{{ f.metric_value }}</td>
+      <td>{{ f.expected_value }}</td>
+      <td>{{ f.description }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</details>
+
+<hr style="margin-top: 40px; border: none; border-top: 1px solid #ddd;">
+<p class="timestamp">VBC Validation Engine | Report generated {{ generation_time }}</p>
+
+</body>
+</html>

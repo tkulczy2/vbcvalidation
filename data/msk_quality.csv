@@ -1,0 +1,11 @@
+measure_name,measure_id,numerator,denominator,rate,target,max_points,points_earned,prior_year_rate,benchmark_50th,benchmark_90th
+Surgical Site Infection (TKR/THR),MSK-Q-001,5,237,0.021,0.02,10,8,0.025,0.022,0.012
+90-Day Readmission (Surgical),MSK-Q-002,18,390,0.046,0.05,10,10,0.052,0.048,0.032
+90-Day ER Visit (Surgical),MSK-Q-003,35,390,0.090,0.08,10,7,0.075,0.082,0.055
+12-Month Revision Rate,MSK-Q-004,4,237,0.017,0.02,10,10,0.020,0.019,0.010
+PROM Collection Rate,MSK-Q-005,152,390,0.390,0.60,10,2,0.350,0.620,0.850
+PROM Clinically Meaningful Improvement,MSK-Q-006,98,152,0.645,0.70,10,6,0.610,0.680,0.820
+Opioid MME Compliance,MSK-Q-007,285,390,0.731,0.80,10,6,0.700,0.780,0.900
+Conservative Tx Attempted Pre-Surgery,MSK-Q-008,340,390,0.872,0.85,10,9,0.850,0.860,0.940
+Patient Satisfaction (Top Box),MSK-Q-009,312,390,0.800,0.82,10,7,0.790,0.810,0.880
+Composite Quality Score,MSK-Q-COMP,,,0.722,0.60,90,65,,0.720,0.850

@@ -1,0 +1,53 @@
+{
+  "contracts": [
+    {
+      "contract_id": "MSK-2024-001",
+      "contract_name": "Midwest Orthopedic Partners \u2014 MA Bundled Episodes",
+      "specialty": "MSK",
+      "lob": "Medicare Advantage",
+      "contract_type": "episode_bundled",
+      "risk_arrangement": "two_sided",
+      "sharing_rate_savings": 0.50,
+      "sharing_rate_losses": 0.30,
+      "performance_period": "CY 2024",
+      "attribution_method": "episode_trigger",
+      "episode_window_days": 90,
+      "attributed_members": 6200,
+      "member_months": 74400,
+      "quality_gate_minimum": 60,
+      "stop_loss_threshold_per_episode": 150000,
+      "benchmark_trend_factor": 1.032,
+      "risk_adjustment_model": "CMS-HCC V28 + surgical complexity",
+      "minimum_episode_volume": 20,
+      "data_as_of": "2025-01-15",
+      "claims_runout_days": 120,
+      "notes": "Second performance year. Provider completed year 1 with 3.2% savings."
+    },
+    {
+      "contract_id": "ONC-2024-001",
+      "contract_name": "Regional Cancer Center Network \u2014 MA Episode + Pathway",
+      "specialty": "Oncology",
+      "lob": "Medicare Advantage",
+      "contract_type": "episode_pathway",
+      "risk_arrangement": "two_sided",
+      "sharing_rate_savings": 0.50,
+      "sharing_rate_losses": 0.25,
+      "performance_period": "CY 2024",
+      "attribution_method": "chemo_trigger",
+      "episode_window_days": 180,
+      "attributed_members": 4800,
+      "member_months": 57600,
+      "quality_gate_minimum": 55,
+      "pathway_adherence_target": 0.80,
+      "pathway_bonus_pmpm": 75.00,
+      "stop_loss_threshold_per_episode": 500000,
+      "benchmark_trend_factor": 1.045,
+      "risk_adjustment_model": "OCM-derived (cancer type, stage, comorbidity)",
+      "novel_therapy_carveout": true,
+      "novel_therapy_lookback_months": 18,
+      "data_as_of": "2025-01-15",
+      "claims_runout_days": 120,
+      "notes": "First performance year. Network includes 3 practice sites."
+    }
+  ]
+}

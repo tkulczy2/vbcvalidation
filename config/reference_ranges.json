@@ -1,0 +1,88 @@
+{
+  "msk": {
+    "episode_cost_ranges": {
+      "TKR": {"min": 18000, "max": 45000, "expected": 28000, "description": "Total Knee Replacement, 90-day all-in"},
+      "THR": {"min": 17000, "max": 42000, "expected": 27500, "description": "Total Hip Replacement, 90-day all-in"},
+      "spinal_fusion_1_2": {"min": 25000, "max": 65000, "expected": 38000, "description": "Spinal Fusion 1-2 levels"},
+      "spinal_fusion_3_plus": {"min": 45000, "max": 120000, "expected": 72000, "description": "Spinal Fusion 3+ levels"},
+      "knee_arthroscopy": {"min": 4000, "max": 15000, "expected": 9200, "description": "Knee Arthroscopy"},
+      "rotator_cuff": {"min": 12000, "max": 30000, "expected": 18000, "description": "Rotator Cuff Repair"},
+      "conservative_lbp": {"min": 1500, "max": 8000, "expected": 4800, "description": "Conservative Low Back Pain, 12-month"},
+      "conservative_joint": {"min": 1200, "max": 6000, "expected": 3500, "description": "Conservative Joint Pain, 12-month"}
+    },
+    "utilization_ranges_ma": {
+      "surgical_conversion_rate_lbp": {"min": 0.05, "max": 0.25, "expected": 0.12, "unit": "proportion", "description": "% LBP patients converting to surgery within 12mo"},
+      "surgical_conversion_rate_joint": {"min": 0.10, "max": 0.35, "expected": 0.20, "unit": "proportion"},
+      "discharge_to_home_tkr": {"min": 0.50, "max": 0.95, "expected": 0.72, "unit": "proportion"},
+      "discharge_to_home_thr": {"min": 0.45, "max": 0.90, "expected": 0.68, "unit": "proportion"},
+      "discharge_to_snf_tkr": {"min": 0.05, "max": 0.40, "expected": 0.18, "unit": "proportion"},
+      "readmission_rate_joint": {"min": 0.02, "max": 0.10, "expected": 0.05, "unit": "proportion"},
+      "readmission_rate_spine": {"min": 0.03, "max": 0.12, "expected": 0.07, "unit": "proportion"},
+      "implant_cost_tkr": {"min": 2000, "max": 12000, "expected": 5500, "unit": "dollars"},
+      "implant_cost_thr": {"min": 2500, "max": 14000, "expected": 6000, "unit": "dollars"},
+      "opioid_mme_discharge_avg": {"min": 0, "max": 90, "expected": 40, "unit": "MME"},
+      "prom_collection_rate": {"min": 0.30, "max": 0.95, "expected": 0.65, "unit": "proportion"}
+    },
+    "quality_targets": {
+      "ssi_rate": {"target": 0.02, "max_acceptable": 0.05, "description": "Surgical site infection rate"},
+      "readmit_90day": {"target": 0.05, "max_acceptable": 0.10},
+      "er_visit_90day": {"target": 0.08, "max_acceptable": 0.15},
+      "revision_12mo": {"target": 0.02, "max_acceptable": 0.05},
+      "prom_improvement": {"target": 0.70, "description": "% patients showing clinically meaningful improvement on HOOS/KOOS/ODI"}
+    },
+    "implant_cost_ratio_benchmarks": {
+      "joint_replacement": {"expected_max": 0.20, "description": "Implant cost as % of total episode cost for TKR/THR"},
+      "spinal_fusion": {"expected_max": 0.25, "description": "Implant cost as % of total episode cost for spine"}
+    },
+    "volume_per_1000_ma": {
+      "knee_arthroscopy": {"min": 15, "max": 25, "expected": 20},
+      "tkr": {"min": 15, "max": 30, "expected": 22},
+      "thr": {"min": 10, "max": 20, "expected": 15},
+      "spinal_fusion": {"min": 5, "max": 15, "expected": 10}
+    },
+    "arthroscopy_to_conservative_ratio": {
+      "expected_max": 0.50,
+      "target": 0.35
+    }
+  },
+  "oncology": {
+    "episode_cost_ranges": {
+      "breast_early": {"min": 20000, "max": 65000, "expected": 42000, "description": "Breast, early stage, 6-month episode"},
+      "breast_metastatic": {"min": 50000, "max": 180000, "expected": 95000, "description": "Breast, metastatic, 6-month episode"},
+      "lung_nsclc_1L": {"min": 60000, "max": 200000, "expected": 105000, "description": "NSCLC first-line, 6-month episode"},
+      "lung_nsclc_2L_plus": {"min": 40000, "max": 160000, "expected": 85000, "description": "NSCLC second-line+, 6-month episode"},
+      "colorectal_adjuvant": {"min": 15000, "max": 55000, "expected": 35000, "description": "Colorectal adjuvant, 6-month episode"},
+      "colorectal_metastatic": {"min": 40000, "max": 150000, "expected": 82000, "description": "Colorectal metastatic, 6-month episode"},
+      "prostate_early": {"min": 8000, "max": 35000, "expected": 18000, "description": "Prostate, early stage, 6-month episode"},
+      "prostate_advanced": {"min": 35000, "max": 130000, "expected": 68000, "description": "Prostate, advanced, 6-month episode"}
+    },
+    "pathway_adherence_benchmarks": {
+      "breast_early": {"min_acceptable": 0.75, "expected": 0.85},
+      "breast_metastatic": {"min_acceptable": 0.60, "expected": 0.75},
+      "lung_nsclc_1L": {"min_acceptable": 0.60, "expected": 0.72},
+      "lung_nsclc_2L_plus": {"min_acceptable": 0.50, "expected": 0.65},
+      "colorectal_adjuvant": {"min_acceptable": 0.80, "expected": 0.90},
+      "colorectal_metastatic": {"min_acceptable": 0.55, "expected": 0.68}
+    },
+    "eol_benchmarks": {
+      "chemo_14d_death": {"target": 0.08, "max_acceptable": 0.15, "description": "Chemotherapy within 14 days of death"},
+      "hospice_enrollment": {"target": 0.60, "min_acceptable": 0.40, "description": "Hospice enrollment rate among decedents"},
+      "hospice_7d_before_death": {"target": 0.45, "min_acceptable": 0.30, "description": "Hospice enrolled >7 days before death"},
+      "icu_30d_death": {"target": 0.12, "max_acceptable": 0.20, "description": "ICU admission within 30 days of death"},
+      "er_30d_death": {"target": 0.25, "max_acceptable": 0.40, "description": "ER visit within 30 days of death"}
+    },
+    "drug_cost_benchmarks": {
+      "biosimilar_utilization_trastuzumab": {"target": 0.80, "min_acceptable": 0.50},
+      "biosimilar_utilization_bevacizumab": {"target": 0.75, "min_acceptable": 0.45},
+      "biosimilar_utilization_rituximab": {"target": 0.70, "min_acceptable": 0.40},
+      "office_vs_hopd_ratio": {"target": 0.65, "min_acceptable": 0.40, "description": "% infusions in physician office vs HOPD"},
+      "generic_utilization_supportive": {"target": 0.85, "min_acceptable": 0.65, "description": "Generic rate for supportive care drugs"}
+    },
+    "incidence_rates_ma_per_1000": {
+      "breast": {"min": 2.0, "max": 4.5, "expected": 3.2},
+      "lung": {"min": 1.5, "max": 3.5, "expected": 2.4},
+      "colorectal": {"min": 1.0, "max": 2.5, "expected": 1.6},
+      "prostate": {"min": 1.5, "max": 3.0, "expected": 2.1}
+    }
+  }
+}
