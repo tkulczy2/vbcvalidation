@@ -2,11 +2,14 @@
 
 from dataclasses import dataclass
 import json
+import os
 import re
 from collections import defaultdict
 
 from validation import ValidationFlag
 from diagnosis.prompt_templates import DIAGNOSTIC_SYSTEM_PROMPT, DIAGNOSTIC_PROMPT
+
+PREGENERATED_PATH = os.path.join(os.path.dirname(__file__), "pregenerated_responses.json")
 
 
 @dataclass
@@ -142,12 +145,21 @@ def _parse_diagnostic_response(response_dict: dict, episode_type: str,
     )
 
 
+def _load_pregenerated() -> dict | None:
+    """Load pre-generated diagnostic responses from JSON file if available."""
+    if os.path.exists(PREGENERATED_PATH):
+        with open(PREGENERATED_PATH) as f:
+            return json.load(f)
+    return None
+
+
 def generate_all_diagnostics(flags: list[ValidationFlag], contract_metadata: dict,
                               report_data: dict) -> list[DiagnosticNarrative]:
     """Generate AI diagnostic narratives for all flagged issues.
 
     Groups related flags by episode type, sends each group to Claude API
     with context, and returns structured DiagnosticNarrative objects.
+    Falls back to pre-generated responses if the API is unavailable.
     """
     if not flags:
         return []
@@ -155,6 +167,9 @@ def generate_all_diagnostics(flags: list[ValidationFlag], contract_metadata: dic
     grouped = _group_flags_by_episode(flags)
     contracts = contract_metadata.get("contracts", [])
     narratives: list[DiagnosticNarrative] = []
+
+    # Try loading pre-generated responses as fallback
+    pregenerated = _load_pregenerated()
 
     for episode_type, episode_flags in grouped.items():
         try:
@@ -167,23 +182,42 @@ def generate_all_diagnostics(flags: list[ValidationFlag], contract_metadata: dic
                       f"skipping diagnostics for '{episode_type}'.")
                 continue
 
-            formatted_flags = _format_flags(episode_flags)
-            formatted_metrics = _format_metrics(episode_type, report_data)
             flag_ids = [f.flag_id for f in episode_flags]
 
-            prompt = DIAGNOSTIC_PROMPT.format(
-                specialty=contract.get("specialty", "Unknown"),
-                contract_name=contract.get("contract_name", "Unknown"),
-                contract_type=contract.get("contract_type", "Unknown"),
-                lob=contract.get("lob", "Unknown"),
-                performance_period=contract.get("performance_period", "Unknown"),
-                attributed_members=contract.get("attributed_members", 0),
-                episode_type=episode_type,
-                formatted_flags=formatted_flags,
-                formatted_metrics=formatted_metrics,
-            )
+            # Try API first, fall back to pre-generated responses
+            response_dict = None
+            try:
+                formatted_flags = _format_flags(episode_flags)
+                formatted_metrics = _format_metrics(episode_type, report_data)
 
-            response_dict = _call_claude_api(prompt, DIAGNOSTIC_SYSTEM_PROMPT)
+                prompt = DIAGNOSTIC_PROMPT.format(
+                    specialty=contract.get("specialty", "Unknown"),
+                    contract_name=contract.get("contract_name", "Unknown"),
+                    contract_type=contract.get("contract_type", "Unknown"),
+                    lob=contract.get("lob", "Unknown"),
+                    performance_period=contract.get("performance_period", "Unknown"),
+                    attributed_members=contract.get("attributed_members", 0),
+                    episode_type=episode_type,
+                    formatted_flags=formatted_flags,
+                    formatted_metrics=formatted_metrics,
+                )
+
+                response_dict = _call_claude_api(prompt, DIAGNOSTIC_SYSTEM_PROMPT)
+                # Check if the API returned a placeholder (unavailable) response
+                if "unavailable" in response_dict.get("diagnosis_summary", "").lower():
+                    response_dict = None
+            except Exception:
+                response_dict = None
+
+            # Use pre-generated response if API failed
+            if response_dict is None and pregenerated and episode_type in pregenerated:
+                print(f"  Using pre-generated response for '{episode_type}'")
+                response_dict = pregenerated[episode_type]
+
+            if response_dict is None:
+                print(f"WARNING: No diagnostic available for '{episode_type}'")
+                continue
+
             narrative = _parse_diagnostic_response(response_dict, episode_type, flag_ids)
             narratives.append(narrative)
 

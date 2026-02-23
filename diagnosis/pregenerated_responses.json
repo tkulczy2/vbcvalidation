@@ -1,0 +1,883 @@
+{
+  "TKR": {
+    "diagnosis_summary": "The primary pattern is a discharge-mix shift — home discharges increased 12 percentage points (62% to 74%) while SNF utilization dropped correspondingly, but the home-care support infrastructure has not kept pace. The resulting 75% increase in ER visits (8% to 14%) signals that patients who previously received structured post-acute care at SNFs are now being sent home without adequate transitional support. The concurrent PROM collection failure (39%) means we cannot reliably measure whether this shift is actually harming patient outcomes.",
+    "probable_causes": [
+      {
+        "cause": "Inadequate home health support following accelerated discharge-to-home strategy",
+        "likelihood": "high",
+        "evidence": "Home discharge up 12pp (62%→74%), SNF down 12pp (30%→18%), ER visits up 75% (8%→14%), but readmission rate stable at 4.6% — patients are using the ER as a substitute for SNF-level monitoring"
+      },
+      {
+        "cause": "Lack of standardized post-discharge follow-up protocol for home-discharge patients",
+        "likelihood": "high",
+        "evidence": "ER rate 14% approaching the 15% maximum threshold; the fact that readmissions haven't risen yet suggests ER visits are for manageable issues (pain, wound concerns) that a nurse visit or telehealth check could address"
+      },
+      {
+        "cause": "Systematic failure of PROM collection workflow",
+        "likelihood": "high",
+        "evidence": "39% collection rate vs 65% expected, with deviation of 40% of range width. This is consistent across all MSK episode types, suggesting a practice-wide operational gap rather than a TKR-specific issue"
+      },
+      {
+        "cause": "Marginally elevated SSI rate as a contributor to ER visits",
+        "likelihood": "low",
+        "evidence": "SSI rate 2.1% vs 2.0% target is statistically insignificant given 142 episodes (difference of ~0.14 cases). SSI rate actually improved from prior year (2.5%), so this is not a driver"
+      }
+    ],
+    "questions_for_provider": [
+      "What home health services are routinely ordered for TKR patients discharged home — and has the home health order set changed as discharge-to-home rates increased?",
+      "Do you have a structured post-discharge call or telehealth visit within 48-72 hours for TKR patients sent home?",
+      "For the ER visits at 90 days — what are the top 3 presenting complaints? Are these pain management, wound concerns, or fall-related?",
+      "What is your current PROM collection workflow — is it paper-based, EHR-integrated, or manual phone follow-up? What barriers have staff identified?",
+      "Have you considered a tiered discharge protocol where higher-risk patients (age >75, BMI >40, live alone) are preferentially routed to SNF?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Implement a standardized post-discharge monitoring program for home-discharge TKR patients (48-hour nurse call, day 7 and 14 wound check, telehealth PRN)",
+        "timeframe": "immediate",
+        "expected_impact": "Reducing ER visits from 14% to 8-10% would avoid ~6-8 ER encounters, saving approximately $15,000-$24,000 in ER costs and reducing risk of readmission conversion"
+      },
+      {
+        "intervention": "Deploy EHR-integrated PROM collection (automated email/text at 6 weeks and 12 weeks post-op) with staff accountability tracking",
+        "timeframe": "short-term",
+        "expected_impact": "Increasing collection from 39% to >65% would make outcome data reliable and likely earn additional quality points; estimated 4-6 quality point improvement on PROM measures"
+      },
+      {
+        "intervention": "Develop a risk-stratified discharge disposition algorithm that accounts for social determinants (living alone, caregiver availability, home accessibility)",
+        "timeframe": "short-term",
+        "expected_impact": "Targeting the appropriate 10-15% of patients for SNF rather than blanket home discharge could reduce ER visits by 30-40% while preserving most of the cost savings from reduced SNF utilization"
+      }
+    ],
+    "contract_implications": "TKR is currently generating savings ($170,400 below target, -4.3% variance), but the ER visit trend threatens sustainability. If ER visits convert to readmissions in future periods, cost savings would erode by an estimated $50,000-$100,000. The PROM collection failure also puts quality gate points at risk — the MSK quality gate relies on PROM improvement measures. Recommend adding a discharge-to-home quality corridor in the next contract amendment requiring ER visit monitoring when home discharge rates exceed 70%."
+  },
+
+  "Spinal Fusion 1-2": {
+    "diagnosis_summary": "Spinal Fusion 1-2 is running 8.4% over target ($41,200 vs $38,000), driven by a combination of elevated post-acute costs, higher-than-expected complication rates, and a 38% volume increase year-over-year that may reflect surgical pipeline acceleration from conservative management. The cluster of quality flags — readmission, ER visits, SSI, revision rate, and opioid prescribing all exceeding targets — suggests the provider is operating on sicker or less-optimized patients, possibly due to the rapid volume growth.",
+    "probable_causes": [
+      {
+        "cause": "Rapid volume growth (38% YoY) outpacing care pathway optimization",
+        "likelihood": "high",
+        "evidence": "Episode count increased from 42 to 58 (38.1%), while avg cost rose from $39,800 to $41,200 and risk scores show actual (1.08) exceeding expected (1.05) — the 0.03 gap suggests some case-mix creep not fully captured by risk adjustment"
+      },
+      {
+        "cause": "Elevated post-acute care utilization and inadequate pain management protocols",
+        "likelihood": "high",
+        "evidence": "Post-acute cost avg $6,400 is 15.5% of total episode cost; opioid MME at discharge is 55 vs 50 threshold; ER visits 10% vs 8% target; these collectively indicate patients are not recovering as expected post-operatively"
+      },
+      {
+        "cause": "Surgical technique or patient selection contributing to complication rates",
+        "likelihood": "medium",
+        "evidence": "SSI 2.8% (vs 2.0% target), revision rate 2.2% (vs 2.0%), readmission 6.5% (vs 5.0%) — all three complication metrics exceed targets, suggesting a systemic quality issue rather than random variation"
+      },
+      {
+        "cause": "PROM collection failure masking true outcome quality",
+        "likelihood": "high",
+        "evidence": "38% PROM collection rate with 60% improvement rate measured only on the compliant subgroup — true improvement rate is likely lower, meaning quality problems may be worse than measured"
+      }
+    ],
+    "questions_for_provider": [
+      "With volume up 38% year-over-year, are you seeing a change in the patient mix being referred for fusion — specifically, are more patients coming from failed conservative management within your own practice?",
+      "What is your current enhanced recovery after surgery (ERAS) protocol for spinal fusion, and has it been updated to accommodate the volume increase?",
+      "For the 55 MME average at discharge — do you have a multimodal pain management protocol, and are there specific surgeons with higher prescribing patterns?",
+      "What is driving the SSI rate of 2.8%? Have you reviewed surgical prep protocols, antibiotic prophylaxis timing, and OR environment controls?",
+      "For the 6.5% readmission rate — what are the primary readmission diagnoses, and are these occurring within the first 7 days or later in the episode?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Implement a formal ERAS protocol for spinal fusion with standardized multimodal pain management (target: reduce discharge MME to <50)",
+        "timeframe": "immediate",
+        "expected_impact": "Reducing opioid MME by 10% could decrease ER visits and readmissions by 15-20%, saving approximately $50,000-$75,000 annually in post-acute costs"
+      },
+      {
+        "intervention": "Conduct a surgical site infection root cause analysis with focus on antibiotic timing, skin prep, and OR traffic patterns",
+        "timeframe": "immediate",
+        "expected_impact": "Reducing SSI from 2.8% to 2.0% target would prevent approximately 0.5 infections per year, saving $25,000-$50,000 per avoided SSI"
+      },
+      {
+        "intervention": "Establish conservative management duration requirements before fusion referral (minimum 6-12 weeks of PT, injections, and pain management documentation)",
+        "timeframe": "short-term",
+        "expected_impact": "Ensuring appropriate patient selection could reduce volume by 10-15% while improving per-episode outcomes, potentially eliminating the 8.4% cost overrun"
+      },
+      {
+        "intervention": "Deploy EHR-integrated PROM collection with automated patient outreach",
+        "timeframe": "short-term",
+        "expected_impact": "Achieving >65% PROM collection enables reliable outcome measurement and supports quality gate performance"
+      }
+    ],
+    "contract_implications": "Spinal Fusion 1-2 is generating $185,600 in losses (8.4% over target) against the bundle price. Combined with the surgical pipeline acceleration flag (Conservative LBP down while fusion volumes surge), this episode type presents both a financial and an integrity risk. If the volume growth reflects inappropriate surgical acceleration, the contract should consider adding a conservative management attestation requirement. The risk score gap (1.08 actual vs 1.05 expected) suggests the current target price may need risk-corridor adjustment if the case mix shift is legitimate."
+  },
+
+  "Spinal Fusion 3+": {
+    "diagnosis_summary": "Spinal Fusion 3+ is the highest-cost episode type at $78,500 per episode (9.0% over the $72,000 target), and despite a small volume of only 18 cases, it generates $117,000 in total losses. The comprehensive pattern of quality metric failures — readmission 8.5%, ER visits 12%, SSI 3.5%, revision 3.0%, and opioid MME 65 — indicates these complex multilevel fusions are straining the provider's care infrastructure. The 35% PROM collection rate is the lowest across all MSK episode types.",
+    "probable_causes": [
+      {
+        "cause": "Inherent complexity of multilevel fusion cases exceeding current care pathway design",
+        "likelihood": "high",
+        "evidence": "All five quality metrics exceed targets simultaneously; LOS 5.2 days (highest of all MSK episodes); only 32% discharge home (lowest); risk score gap of 0.03 (1.15 actual vs 1.12 expected) suggests inadequate risk adjustment for this complex population"
+      },
+      {
+        "cause": "High implant and facility costs in complex cases not adequately captured by target price",
+        "likelihood": "high",
+        "evidence": "Implant cost $16,200 (20.6% of episode cost), facility cost $32,000 (40.8%), post-acute $14,500 (18.5%) — the cost structure is dominated by fixed high-cost components that are difficult to reduce"
+      },
+      {
+        "cause": "Inadequate pain management leading to elevated opioid prescribing and downstream complications",
+        "likelihood": "medium",
+        "evidence": "Opioid MME 65 is 30% above the 50 threshold and highest across all MSK episodes; ER visit rate 12% and readmission rate 8.5% suggest post-operative pain control failures"
+      },
+      {
+        "cause": "Volume growth (15 to 18, +20%) without proportional investment in post-acute support",
+        "likelihood": "medium",
+        "evidence": "Prior year volume 15, current 18; post-acute cost avg $14,500 is the highest across MSK types; 38% SNF + 22% IRF = 60% institutional post-acute disposition suggests high-acuity recovery needs"
+      }
+    ],
+    "questions_for_provider": [
+      "For your 3+ level fusion cases, what is your patient selection criteria — do you have a multidisciplinary spine committee review for cases with >3 levels?",
+      "What implant systems are being used for multilevel cases, and have you explored less costly alternatives or negotiated volume-based pricing with vendors?",
+      "With 65 MME average at discharge, do you have a specific opioid tapering protocol for complex spine cases, or are these managed at individual surgeon discretion?",
+      "Given the 8.5% readmission rate, have you considered a mandatory 48-hour post-discharge nurse check-in for all 3+ level fusion patients?",
+      "Would you support a risk-corridor mechanism for 3+ level fusions given the inherent complexity and small volume (18 cases)?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Establish a multidisciplinary spine committee to review all 3+ level fusion cases pre-operatively for appropriateness, risk stratification, and post-acute planning",
+        "timeframe": "immediate",
+        "expected_impact": "Better patient selection and pre-operative optimization could reduce complication rates by 20-30%, saving $30,000-$50,000 in avoided readmissions and ER visits"
+      },
+      {
+        "intervention": "Implement a multilevel fusion-specific ERAS pathway with multimodal pain management targeting <50 MME at discharge",
+        "timeframe": "short-term",
+        "expected_impact": "Reducing MME from 65 to 50 could decrease ER visits from 12% to 8-9%, saving approximately $20,000-$30,000 per year"
+      },
+      {
+        "intervention": "Negotiate implant vendor pricing for multilevel cases, potentially including a gainsharing arrangement for device cost reduction",
+        "timeframe": "short-term",
+        "expected_impact": "A 10% reduction in implant cost ($1,620/case) across 18 cases = $29,160 annual savings"
+      },
+      {
+        "intervention": "Request risk-corridor or outlier protection for 3+ level fusions in the next contract amendment",
+        "timeframe": "contract-renewal",
+        "expected_impact": "A +/- 10% risk corridor would protect both parties from the inherent volatility of small-volume complex cases"
+      }
+    ],
+    "contract_implications": "Spinal Fusion 3+ is losing $117,000 (9.0% overrun) on only 18 cases, making it the highest per-episode loss driver in the MSK contract. The risk score gap (1.15 vs 1.12) and uniformly elevated quality metrics suggest the $72,000 target price may be inadequate for this case mix. Recommend a contract amendment adding either: (1) a risk corridor of +/-10% for 3+ level fusions, (2) an outlier carve-out for cases exceeding $100,000, or (3) a separate target price tier for 4+ level fusions. Without adjustment, this episode type will continue to generate disproportionate losses."
+  },
+
+  "Knee Arthroscopy": {
+    "diagnosis_summary": "Knee arthroscopy volume of 33.1 per 1,000 members is dramatically above the expected MA range of 15-25 per 1,000, and the arthroscopy-to-conservative ratio of 0.64:1 (vs target 0.35:1) strongly suggests systematic overutilization. Multiple RCTs have demonstrated that arthroscopic debridement for knee OA — the most common indication in an MA-age population — is clinically ineffective, meaning a significant portion of these 205 procedures may be providing no clinical benefit while generating unnecessary surgical risk and cost.",
+    "probable_causes": [
+      {
+        "cause": "Overutilization of arthroscopic debridement for knee osteoarthritis in the MA population",
+        "likelihood": "high",
+        "evidence": "33.1/1,000 volume rate is 32-121% above expected range (15-25/1,000); arthroscopy-to-conservative ratio 0.64:1 is 83% above the 0.35:1 target; MA population demographics skew toward OA, where arthroscopy is evidence-contraindicated"
+      },
+      {
+        "cause": "Financial incentive structure favoring surgical over conservative management within the bundle design",
+        "likelihood": "medium",
+        "evidence": "Arthroscopy episodes ($8,400 avg) are below target ($9,200), generating apparent savings of -8.7%, which may be creating a perverse incentive to perform more arthroscopies since each one generates a favorable variance"
+      },
+      {
+        "cause": "Insufficient utilization management or prior authorization for arthroscopy indications",
+        "likelihood": "medium",
+        "evidence": "Volume is stable vs prior year (205 vs 195, +5%), suggesting this is an established practice pattern rather than a new trend; risk scores 1.01/1.01 confirm the population is not sicker than expected"
+      },
+      {
+        "cause": "PROM collection failure preventing detection of poor arthroscopy outcomes",
+        "likelihood": "high",
+        "evidence": "42% PROM collection rate with 70% reported improvement — but the evidence base shows arthroscopic debridement for OA has no benefit, so the 70% improvement figure is almost certainly selection bias from the compliant subgroup"
+      }
+    ],
+    "questions_for_provider": [
+      "What are the top 3 indications for your knee arthroscopy cases — what percentage are for osteoarthritis vs meniscal tear vs other?",
+      "Do you have a pre-arthroscopy conservative management requirement (e.g., minimum 6 weeks of PT, corticosteroid injection, and activity modification)?",
+      "For OA-indication arthroscopies, what is your evidence basis given the 2002 Moseley et al., 2008 Kirkley et al., and 2013 Sihvonen et al. RCTs showing no benefit?",
+      "Would you support implementing a mandatory pre-authorization pathway requiring documentation of failed conservative management before arthroscopy approval?",
+      "What percentage of your arthroscopy patients subsequently progress to total knee replacement within 12-24 months?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Implement a mandatory pre-authorization pathway for knee arthroscopy requiring documentation of ≥6 weeks of conservative management failure, with OA-indication arthroscopies requiring P&T committee review",
+        "timeframe": "immediate",
+        "expected_impact": "Reducing volume from 33.1/1,000 to 25/1,000 would eliminate approximately 50 unnecessary procedures, avoiding ~$420,000 in total costs and reducing patient exposure to surgical risk"
+      },
+      {
+        "intervention": "Add an arthroscopy-specific quality measure tracking the proportion of arthroscopies performed for evidence-supported indications (traumatic meniscal tear, loose body removal) vs unsupported indications (OA debridement)",
+        "timeframe": "short-term",
+        "expected_impact": "Transparency on indication mix would enable targeted intervention and could shift 30-40% of OA-indication cases to conservative pathways"
+      },
+      {
+        "intervention": "Restructure the bundle to remove or reduce the financial incentive for arthroscopy by either lowering the target price or creating a shared savings corridor that only pays on episodes with evidence-supported indications",
+        "timeframe": "contract-renewal",
+        "expected_impact": "Aligning financial incentives with clinical evidence could reduce arthroscopy volume by 40-50% over 2 contract cycles"
+      }
+    ],
+    "contract_implications": "While arthroscopy appears financially favorable (generating $164,000 in savings at -8.7% variance), this savings is illusory if the procedures are unnecessary — the true cost includes the 205 patients exposed to surgical risk without clinical benefit plus the downstream costs of patients who progress to TKR after failed arthroscopy. The arthroscopy-to-conservative ratio of 0.64:1 is a program integrity concern. Recommend adding an evidence-based utilization target (≤25/1,000) as a contract quality measure, with a shared savings reduction if the target is exceeded. This should be a priority discussion item at the next JOC."
+  },
+
+  "Conservative LBP \u2192 Spinal Fusion": {
+    "diagnosis_summary": "The inverse volume trend — conservative low back pain episodes decreasing 6.7% (520 to 485) while spinal fusion 1-2 episodes increased 38.1% (42 to 58) — represents a potential surgical pipeline acceleration pattern. Approximately 35 fewer conservative LBP cases coincide with 16 additional fusion cases, suggesting an increasing conversion rate from conservative to surgical management that warrants investigation for appropriateness.",
+    "probable_causes": [
+      {
+        "cause": "Accelerated conversion from conservative management to surgical intervention, potentially due to financial incentives favoring higher-reimbursement fusion episodes",
+        "likelihood": "high",
+        "evidence": "Conservative LBP down 35 episodes (-6.7%) while Spinal Fusion 1-2 up 16 episodes (+38.1%); the inverse directionality strongly suggests patient flow from conservative to surgical pathway is accelerating"
+      },
+      {
+        "cause": "Legitimate clinical practice evolution with improved patient selection for fusion",
+        "likelihood": "medium",
+        "evidence": "Risk score actual (1.08) slightly exceeding expected (1.05) for fusion cases could indicate a sicker population being appropriately identified for surgery; however, this does not fully explain the volume magnitude"
+      },
+      {
+        "cause": "Shortened conservative management duration before surgical referral",
+        "likelihood": "medium",
+        "evidence": "The 38% increase in fusion volume without a corresponding increase in attributed members (6,200 stable) means the conversion rate has increased — patients may be spending less time in conservative management before being offered surgery"
+      }
+    ],
+    "questions_for_provider": [
+      "What is the average duration of conservative management (PT, injections, medications) before a patient is referred for surgical consultation for lumbar fusion?",
+      "Has there been a change in referral patterns, new surgeon recruitment, or revised clinical protocols that could explain the 38% increase in fusion volume?",
+      "Can you provide a chart review of the 16 incremental fusion cases — specifically, how long were these patients in conservative management before conversion to surgery?",
+      "Do you have a multidisciplinary spine committee that reviews fusion candidacy, and if so, has the approval rate changed year-over-year?",
+      "Are there specific surgeons driving the volume increase, or is it distributed across your spine surgery team?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Require a minimum 12-week conservative management period with documented failure criteria before fusion eligibility, with mandatory physical therapy utilization and at least one injection trial",
+        "timeframe": "immediate",
+        "expected_impact": "Establishing minimum conservative duration could redirect 20-30% of incremental fusion cases back to conservative management, potentially avoiding $300,000-$500,000 in surgical costs"
+      },
+      {
+        "intervention": "Commission a retrospective chart review of all 58 fusion cases to assess conservative management duration and appropriateness of surgical conversion",
+        "timeframe": "immediate",
+        "expected_impact": "Identifying inappropriate conversions provides evidence basis for protocol changes and contract amendments"
+      },
+      {
+        "intervention": "Add a surgical conversion rate metric to the contract quality scorecard (target: fusion volume growth should not exceed conservative volume growth by >15 percentage points)",
+        "timeframe": "contract-renewal",
+        "expected_impact": "Contractual guardrails on volume shifts would align incentives with appropriate utilization and protect against pipeline acceleration"
+      }
+    ],
+    "contract_implications": "This is a program integrity flag. If the surgical pipeline is accelerating inappropriately, the $185,600 in fusion losses is being driven by volume growth rather than case-mix complexity. The bundled payment design may inadvertently incentivize this shift if the provider views fusion episodes as revenue opportunities (even at a per-case loss, volume growth increases total revenue). Recommend adding a utilization corridor requiring that any fusion volume growth exceeding 15% year-over-year trigger a mandatory chart review and potential target price reduction. This should be escalated to the JOC as a priority agenda item."
+  },
+
+  "THR": {
+    "diagnosis_summary": "Total hip replacement shows a specific implant cost problem — at 22.8% of total episode cost ($5,800/$25,400), the implant ratio exceeds the 20% industry benchmark, and the risk score gap (1.03 actual vs 1.02 expected) confirms this overrun is not explained by case complexity. The simultaneous PROM collection failure (41%) means we cannot reliably measure functional outcomes, creating a blind spot in quality assessment.",
+    "probable_causes": [
+      {
+        "cause": "Premium implant device selection or unfavorable vendor pricing",
+        "likelihood": "high",
+        "evidence": "Implant cost $5,800 is 22.8% of total episode cost, exceeding the 20% benchmark; compared to TKR implant cost of $5,200 (19.4%), THR implants are proportionally more expensive; risk score actual (1.03) vs expected (1.02) rules out case complexity as the driver"
+      },
+      {
+        "cause": "Surgeon preference for premium bearing surfaces or dual-mobility constructs without evidence-based indications",
+        "likelihood": "medium",
+        "evidence": "THR implant cost ($5,800) exceeds TKR implant cost ($5,200) by 11.5% despite similar total episode costs ($25,400 vs $26,800); this suggests premium component selection in THR specifically"
+      },
+      {
+        "cause": "Lack of implant cost transparency or gainsharing arrangement with device vendors",
+        "likelihood": "medium",
+        "evidence": "Industry benchmarks show implant costs should be <20% of total episode; the 2.8 percentage point gap ($5,800 vs ~$5,080 at 20%) represents approximately $684 excess per episode or $65,000 across 95 cases"
+      }
+    ],
+    "questions_for_provider": [
+      "What hip implant systems and bearing surfaces are your surgeons using, and is there a standardized implant formulary or is it surgeon-preference driven?",
+      "Have you negotiated volume-based pricing with your primary hip implant vendors? What percentage discount are you receiving off list price?",
+      "What proportion of your THR cases are using dual-mobility constructs, ceramic-on-ceramic bearings, or other premium options vs standard polyethylene-on-metal?",
+      "Would your surgeons participate in a value-analysis committee to review implant selection and potentially standardize to 2-3 preferred systems?",
+      "For the PROM collection — can you implement an automated pre- and post-operative HOOS Jr. or Harris Hip Score collection through your patient portal?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Establish an implant value-analysis committee to review device selection, negotiate vendor pricing, and create a preferred implant formulary for standard THR cases",
+        "timeframe": "immediate",
+        "expected_impact": "Reducing implant cost ratio from 22.8% to 20% would save approximately $684 per case x 95 cases = $65,000 annually"
+      },
+      {
+        "intervention": "Negotiate volume-based pricing across THR and TKR implant purchases, leveraging the combined 237 joint replacement cases for better pricing",
+        "timeframe": "short-term",
+        "expected_impact": "A 10-15% volume discount on implants could save $580-$870 per THR case, totaling $55,000-$82,000 annually"
+      },
+      {
+        "intervention": "Deploy EHR-integrated PROM collection for THR (HOOS Jr. at baseline, 6 weeks, 3 months, and 12 months)",
+        "timeframe": "short-term",
+        "expected_impact": "Achieving >65% collection provides reliable outcome data and supports quality performance; estimated 4-6 quality point improvement"
+      }
+    ],
+    "contract_implications": "THR is actually performing well financially (-7.6% variance, generating $199,500 in savings), so the implant cost issue is an optimization opportunity rather than a crisis. However, the $65,000 in addressable implant cost savings would directly improve provider shared savings. The PROM collection failure is the more urgent concern — it affects quality gate scoring and may mask true functional outcomes. For the next contract cycle, consider adding an implant cost ratio metric (target <20%) as a reportable measure, and making PROM collection rate >60% a shared savings qualifier."
+  },
+
+  "Rotator Cuff": {
+    "diagnosis_summary": "Rotator cuff repair has only one flag — the PROM collection reliability issue at 40% — which is consistent with the practice-wide PROM collection failure seen across all MSK episode types (ranging from 35% to 42%). The episode otherwise performs well: costs are 6.7% below target, complication rates are within acceptable ranges, and discharge patterns are appropriate. The PROM issue is a systemic operational problem, not a rotator cuff-specific clinical concern.",
+    "probable_causes": [
+      {
+        "cause": "Practice-wide PROM collection workflow failure affecting all episode types uniformly",
+        "likelihood": "high",
+        "evidence": "PROM collection rates across MSK episodes: TKR 39%, THR 41%, Rotator Cuff 40%, Knee Arthroscopy 42%, Spinal Fusion 1-2 38%, Spinal Fusion 3+ 35% — the narrow 35-42% range across all types confirms this is a systemic operational issue"
+      },
+      {
+        "cause": "Lack of EHR-integrated or automated PROM collection, relying on manual processes",
+        "likelihood": "high",
+        "evidence": "Sub-50% collection across all types is characteristic of paper-based or manually-administered PROM workflows where follow-up depends on individual staff diligence"
+      }
+    ],
+    "questions_for_provider": [
+      "What is your current PROM collection method for rotator cuff patients — is it the same workflow used for all MSK episode types?",
+      "Have you evaluated EHR-integrated PROM platforms (e.g., OBERD, Codametrix, Force Therapeutics) that automate patient outreach?",
+      "What is the primary barrier to collection — patient non-response, staff not sending instruments, or technology limitations?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Implement a unified, EHR-integrated PROM collection platform across all MSK episode types with automated patient outreach via email/text at standardized intervals",
+        "timeframe": "short-term",
+        "expected_impact": "A practice-wide solution could increase collection from ~40% to >70% across all episode types, making outcome data reliable and supporting quality gate performance. Estimated quality point gain: 6-10 points across PROM-related measures"
+      },
+      {
+        "intervention": "Designate a PROM coordinator role responsible for collection rates across all episode types, with monthly reporting to practice leadership",
+        "timeframe": "immediate",
+        "expected_impact": "Accountability structure typically improves collection by 15-20 percentage points within 3 months"
+      }
+    ],
+    "contract_implications": "Rotator cuff is performing well financially (6.7% below target, $86,400 in savings), so no financial intervention is needed. The PROM issue should be addressed at the practice level rather than episode level — recommend a contract amendment adding a minimum PROM collection rate (>60%) as a quality gate component or shared savings modifier. This would incentivize the practice to invest in collection infrastructure. The current 40% rate, if unchanged, puts 6-10 quality points at risk across the MSK quality scorecard."
+  },
+
+  "ALL": {
+    "diagnosis_summary": "The er_visit_rate column in the oncology episodes data contains values on an inconsistent scale — the maximum value of 40.0 suggests some entries are on a 0-100 percentage scale while the column should be on a 0-1 proportion scale. This is a data quality issue that must be resolved before any meaningful analysis of ER utilization can be performed.",
+    "probable_causes": [
+      {
+        "cause": "Mixed scale data entry — some values entered as proportions (0.14) and others as percentages (40.0)",
+        "likelihood": "high",
+        "evidence": "Values range from 0.14 to 40.0; a proportion of 40.0 is impossible (>100%), while 0.14 is a reasonable ER rate. This mixing pattern is consistent with data from multiple source systems or manual entry errors"
+      },
+      {
+        "cause": "Source system ETL error where percentage-formatted values were not divided by 100 during data pipeline processing",
+        "likelihood": "medium",
+        "evidence": "A maximum of 40.0 suggests the raw source data had ER rates as percentages (e.g., 40%) that were ingested without conversion to the expected 0-1 scale"
+      }
+    ],
+    "questions_for_provider": [
+      "What source systems feed the ER visit rate data — is this from claims, clinical data warehouse, or manual reporting?",
+      "Can you confirm whether ER visit rates should be reported as proportions (0.14) or percentages (14%) in your data submission format?",
+      "Have any recent changes been made to the data pipeline or reporting format that could have introduced scale inconsistencies?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Add automated scale validation to the data ingestion pipeline — flag any rate column where values exceed 1.0 and apply automatic conversion (divide by 100) with a warning log",
+        "timeframe": "immediate",
+        "expected_impact": "Prevents misinterpretation of ER utilization data and ensures all downstream analyses and flags are based on correct values"
+      },
+      {
+        "intervention": "Standardize data submission templates with explicit field format documentation specifying that all rates must be on a 0-1 proportion scale",
+        "timeframe": "short-term",
+        "expected_impact": "Eliminates source of data quality errors and reduces manual correction burden"
+      }
+    ],
+    "contract_implications": "This is a data quality issue, not a clinical or financial concern. However, if ER visit rates are overstated due to scale errors, it could lead to incorrect flagging and misallocation of JOC attention. The validation engine correctly identified the inconsistency. Recommend requiring the data submitter to resubmit the corrected er_visit_rate column before the next reporting cycle."
+  },
+
+  "Breast Metastatic 1L": {
+    "diagnosis_summary": "Breast Metastatic 1L pathway adherence at 72% is marginally below the 75% expected benchmark, but the real concern is the cost impact: the 28% of non-pathway cases cost $121,429 per episode vs $95,000 for pathway cases — a 28% premium that drives $211,429 in excess cost across this episode type. This strongly suggests a subset of oncologists are selecting non-formulary regimens, likely newer or branded agents, without sufficient clinical justification over pathway alternatives.",
+    "probable_causes": [
+      {
+        "cause": "Physician preference for non-pathway regimens in a subset of oncologists, possibly influenced by pharmaceutical detailing or familiarity",
+        "likelihood": "high",
+        "evidence": "28% non-pathway rate (8 of ~29 episodes) with a 28% cost premium per non-pathway case ($121,429 vs $95,000); the cost gap is large enough to suggest brand-name or newer agents being used over pathway biosimilars/generics"
+      },
+      {
+        "cause": "Clinically appropriate non-pathway selection for patients with specific biomarker profiles or contraindications",
+        "likelihood": "medium",
+        "evidence": "Some HER2+, triple-negative, or hormone-receptor specific subtypes may genuinely require non-pathway regimens; however, 28% non-pathway is higher than expected even accounting for these exceptions"
+      },
+      {
+        "cause": "Pathway definitions not updated to reflect recent NCCN guideline changes or new approvals",
+        "likelihood": "low",
+        "evidence": "This is the first contract year (no prior year rate available), so the pathway may need refinement based on observed prescribing patterns"
+      }
+    ],
+    "questions_for_provider": [
+      "For the 8 non-pathway Breast Metastatic 1L cases, can you provide the specific regimens used and the clinical rationale for each?",
+      "Are there specific oncologists who account for a disproportionate share of non-pathway prescribing?",
+      "Do your oncologists have real-time pathway adherence visibility at the point of prescribing, or is adherence only reviewed retrospectively?",
+      "For cases where the non-pathway regimen is a newer agent, was there a documented discussion of pathway alternatives with the patient?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Implement real-time pathway adherence alerts in the EHR/prescribing system that notify oncologists when a selected regimen is non-pathway and present the pathway alternative",
+        "timeframe": "immediate",
+        "expected_impact": "Improving adherence from 72% to 80% would save approximately $211,429 by shifting 2-3 cases from non-pathway to pathway regimens"
+      },
+      {
+        "intervention": "Require peer review documentation for any non-pathway regimen selection exceeding $100,000 per episode",
+        "timeframe": "short-term",
+        "expected_impact": "Clinical accountability review could redirect 50% of non-pathway cases to pathway alternatives, saving approximately $105,000"
+      },
+      {
+        "intervention": "Review and update pathway definitions for Breast Metastatic 1L to ensure they reflect current NCCN Category 1 evidence and include all appropriate biosimilar options",
+        "timeframe": "short-term",
+        "expected_impact": "An updated pathway may capture cases currently classified as non-pathway, improving apparent adherence and reducing the clinical burden of deviation documentation"
+      }
+    ],
+    "contract_implications": "The 7.8% cost overrun is directly attributable to non-pathway prescribing. At current rates, each percentage point improvement in pathway adherence saves approximately $26,400. The contract should consider adding a tiered shared savings structure where pathway adherence >80% unlocks a higher sharing rate, creating a direct financial incentive for formulary compliance. If the pathway cannot achieve 80% adherence in this indication, the target price may need upward adjustment to reflect the realistic regimen mix."
+  },
+
+  "Breast Metastatic 2L+": {
+    "diagnosis_summary": "Breast Metastatic 2L+ pathway adherence at 65% is below the 75% expected benchmark but above the 60% minimum acceptable threshold. Second-line and beyond treatment for metastatic breast cancer inherently involves more regimen variability, as patients have already failed first-line therapy and treatment selection becomes more individualized. The 65% rate may partially reflect legitimate clinical complexity rather than non-compliance.",
+    "probable_causes": [
+      {
+        "cause": "Inherent clinical variability in 2L+ treatment requiring more individualized regimen selection",
+        "likelihood": "high",
+        "evidence": "2L+ metastatic breast cancer has more treatment options and fewer clear Category 1 preferred regimens compared to 1L; pathway adherence benchmarks are typically 5-10 percentage points lower for 2L+ than 1L"
+      },
+      {
+        "cause": "Pathway definitions may be too narrow for 2L+ given the heterogeneity of prior treatment exposure",
+        "likelihood": "medium",
+        "evidence": "65% adherence is close to the 60% minimum and below 75% expected; if the pathway does not account for common 2L+ scenarios (prior CDK4/6 inhibitor exposure, prior immunotherapy, HER2-low status), clinically appropriate regimens may be scored as non-pathway"
+      },
+      {
+        "cause": "Insufficient oncologist awareness of pathway options for later-line treatment",
+        "likelihood": "low",
+        "evidence": "No cost data provided for this episode type, so cannot assess whether non-pathway cases are significantly more expensive"
+      }
+    ],
+    "questions_for_provider": [
+      "For the 35% non-pathway cases, what are the most common regimens selected and what prior therapies had these patients received?",
+      "Do your pathways for 2L+ metastatic breast cancer include decision trees based on prior treatment exposure (e.g., prior CDK4/6 inhibitor, prior taxane, HER2-low)?",
+      "Are there specific clinical scenarios where your oncologists feel the current pathway options are inadequate?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Review and expand the 2L+ metastatic breast cancer pathway to include treatment algorithms based on prior therapy exposure, ensuring legitimate regimen choices are captured",
+        "timeframe": "short-term",
+        "expected_impact": "A broader but evidence-based pathway could improve measured adherence from 65% to 75% by capturing clinically appropriate regimens currently classified as non-pathway"
+      },
+      {
+        "intervention": "Implement tumor board documentation requirements for non-pathway 2L+ regimen selection",
+        "timeframe": "short-term",
+        "expected_impact": "Structured documentation enables case-by-case review and identifies whether non-adherence is clinically justified or represents an education opportunity"
+      }
+    ],
+    "contract_implications": "At 65% adherence, this episode type is in the monitoring zone — above the 60% floor but below target. Without associated cost data for this specific flag, the financial impact cannot be precisely quantified. Recommend tracking this metric over the next two quarters before implementing financial penalties. The pathway definitions for 2L+ should be reviewed collaboratively at JOC to ensure they are clinically current. If the pathway is expanded and adherence remains below 70%, a deeper prescribing pattern analysis is warranted."
+  },
+
+  "Lung NSCLC 1L": {
+    "diagnosis_summary": "Lung NSCLC 1L has the most significant pathway-cost correlation in the oncology contract: 68% pathway adherence with a 12.7% cost overrun, driven by non-pathway regimens costing $146,563 per episode — 40% more than the $105,000 pathway cost. The 32% non-pathway cases (13 episodes) are generating $540,313 in excess cost, making this the single largest addressable cost driver in the oncology contract.",
+    "probable_causes": [
+      {
+        "cause": "Non-pathway regimen selection for 1L NSCLC driven by newer immunotherapy-chemotherapy combinations not yet on the pathway formulary",
+        "likelihood": "high",
+        "evidence": "The 40% cost premium for non-pathway cases ($146,563 vs $105,000) is consistent with novel immunotherapy combinations (e.g., nivolumab + ipilimumab + chemo, or newer checkpoint inhibitors) being selected over standard pembrolizumab-based pathways"
+      },
+      {
+        "cause": "Biomarker-driven treatment selection requiring non-pathway agents for specific molecular subtypes",
+        "likelihood": "medium",
+        "evidence": "NSCLC increasingly requires biomarker-stratified treatment (PD-L1 expression, EGFR, ALK, ROS1, KRAS G12C); some biomarker-defined subgroups may not have adequate pathway representation"
+      },
+      {
+        "cause": "Pharmaceutical influence on prescribing patterns favoring branded non-pathway agents",
+        "likelihood": "medium",
+        "evidence": "The 12.7% cost overrun and $540,313 in excess cost suggest significant non-pathway drug costs; the magnitude is consistent with premium-priced branded immunotherapy agents"
+      }
+    ],
+    "questions_for_provider": [
+      "For the 13 non-pathway NSCLC 1L cases, what specific regimens were used and what was the biomarker profile (PD-L1, driver mutations) for each?",
+      "Does your pathway include biomarker-stratified treatment algorithms for PD-L1 ≥50%, PD-L1 1-49%, and PD-L1 <1% populations?",
+      "Are your oncologists aware that non-pathway regimens are costing 40% more per episode, and do they have cost transparency at the point of prescribing?",
+      "Have you implemented molecular tumor board review for all 1L NSCLC patients to ensure biomarker-appropriate treatment selection?",
+      "What percentage of your 1L NSCLC patients receive complete biomarker testing (PD-L1, EGFR, ALK, ROS1, KRAS, BRAF) before treatment initiation?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Update the NSCLC 1L pathway to include biomarker-stratified treatment algorithms reflecting current NCCN guidelines, ensuring all molecular subtypes have pathway-designated regimens",
+        "timeframe": "immediate",
+        "expected_impact": "A biomarker-comprehensive pathway could reclassify 3-5 non-pathway cases as pathway-adherent and guide remaining cases to cost-effective alternatives, potentially saving $200,000-$350,000"
+      },
+      {
+        "intervention": "Implement real-time prescribing decision support that displays pathway alternatives and cost differentials when a non-pathway regimen is selected",
+        "timeframe": "short-term",
+        "expected_impact": "Improving adherence from 68% to 80% would save approximately $540,313 by redirecting 5 episodes from non-pathway to pathway regimens"
+      },
+      {
+        "intervention": "Require mandatory molecular tumor board sign-off for any non-pathway 1L NSCLC regimen exceeding $120,000 per episode",
+        "timeframe": "immediate",
+        "expected_impact": "Peer review accountability for high-cost non-pathway cases could redirect 30-50% of cases, saving $160,000-$270,000"
+      }
+    ],
+    "contract_implications": "Lung NSCLC 1L is the largest financial exposure in the oncology contract, with $540,313 in addressable excess cost directly attributable to non-pathway prescribing. This single episode type accounts for a substantial portion of the oncology contract's overall losses. Recommend a contract amendment creating a tiered shared savings structure: adherence >80% receives full sharing rate, 70-80% receives 75% of sharing rate, <70% receives 50% of sharing rate. Additionally, consider a pathway carve-out for genuinely novel biomarker-driven therapies to avoid penalizing appropriate innovation while maintaining accountability for commodity regimen choices."
+  },
+
+  "Lung NSCLC 2L+": {
+    "diagnosis_summary": "Lung NSCLC 2L+ pathway adherence at 62% is marginally above the 50% minimum acceptable threshold and slightly below the 65% expected benchmark. Similar to Breast Metastatic 2L+, second-line and beyond treatment for NSCLC involves greater regimen variability due to prior treatment exposure, biomarker-driven resistance patterns, and emerging targeted therapies. The narrow gap between actual (62%) and expected (65%) suggests this may be within normal clinical variation.",
+    "probable_causes": [
+      {
+        "cause": "Clinical complexity of 2L+ NSCLC requiring individualized treatment based on prior therapy response and resistance patterns",
+        "likelihood": "high",
+        "evidence": "62% adherence vs 65% expected is a 3 percentage point gap; 2L+ NSCLC has the most heterogeneous treatment landscape in solid tumors, with regimen selection depending on prior immunotherapy response, driver mutation status, and emerging targeted agents"
+      },
+      {
+        "cause": "Pathway definitions not comprehensive enough for the evolving 2L+ NSCLC treatment landscape",
+        "likelihood": "medium",
+        "evidence": "New approvals for KRAS G12C inhibitors (sotorasib, adagrasib), HER2-directed therapy (trastuzumab deruxtecan), and antibody-drug conjugates have expanded the 2L+ armamentarium faster than pathway updates may reflect"
+      }
+    ],
+    "questions_for_provider": [
+      "For non-pathway 2L+ NSCLC cases, what are the most common regimens and what prior treatments had these patients received?",
+      "Does the current pathway include decision algorithms for patients who progress on first-line immunotherapy?",
+      "Are there specific molecular subtypes (KRAS G12C, MET exon 14, RET, NTRK) driving non-pathway agent selection?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Expand the 2L+ NSCLC pathway to include resistance-pattern-based decision trees and recently approved targeted agents for actionable mutations",
+        "timeframe": "short-term",
+        "expected_impact": "An updated pathway could improve measured adherence from 62% to 70%+ by capturing clinically appropriate newer agents"
+      },
+      {
+        "intervention": "Implement quarterly pathway update cycles to keep pace with NSCLC treatment approvals",
+        "timeframe": "short-term",
+        "expected_impact": "More frequent updates prevent adherence score degradation as new therapies enter practice"
+      }
+    ],
+    "contract_implications": "The 62% adherence rate is close to the 65% target and above the 50% minimum, placing this in the monitoring category rather than requiring immediate intervention. Without associated cost data for 2L+ specifically, the financial impact of the 3-point adherence gap is likely modest. Recommend monitoring over two quarters and updating the pathway concurrently. The contract should acknowledge that 2L+ adherence targets should be lower than 1L targets given the inherent clinical complexity."
+  },
+
+  "Colorectal Metastatic 1L": {
+    "diagnosis_summary": "Colorectal Metastatic 1L is the second-largest cost exposure in the oncology contract: 64% pathway adherence with 13.2% cost overrun, driven by non-pathway regimens costing $112,000 per episode versus $82,000 for pathway cases — a 37% premium. The 36% non-pathway rate (10 episodes) generates $300,000 in excess cost. The cost differential strongly suggests non-pathway cases are using branded agents where biosimilar or generic alternatives exist on the pathway.",
+    "probable_causes": [
+      {
+        "cause": "Non-pathway regimen selection favoring branded agents over pathway-designated biosimilar chemotherapy combinations",
+        "likelihood": "high",
+        "evidence": "37% cost premium for non-pathway ($112,000 vs $82,000) is consistent with branded biologics vs biosimilar alternatives; colorectal 1L treatment is relatively standardized (FOLFOX/FOLFIRI + bevacizumab or cetuximab), so non-pathway selection suggests agent-level rather than regimen-level deviations"
+      },
+      {
+        "cause": "Branded bevacizumab (Avastin) usage instead of biosimilar alternatives",
+        "likelihood": "high",
+        "evidence": "Cross-referencing with Drug Detail flags: bevacizumab has 73% brand utilization and is the primary drug used in colorectal 1L; the $30,000 per-episode cost premium aligns with the brand-to-biosimilar price differential"
+      },
+      {
+        "cause": "RAS/MSI biomarker-driven treatment selection requiring non-standard regimens",
+        "likelihood": "medium",
+        "evidence": "MSI-high colorectal cancers may receive immunotherapy (pembrolizumab) instead of standard chemotherapy; if the pathway does not adequately represent this subgroup, these clinically appropriate cases would score as non-pathway"
+      }
+    ],
+    "questions_for_provider": [
+      "For the 10 non-pathway Colorectal Metastatic 1L cases, are these using branded biologics where biosimilar alternatives are on the pathway?",
+      "What proportion of your colorectal 1L patients receive MSI/MMR testing, and how many are MSI-high receiving immunotherapy?",
+      "Does your pathway include biosimilar bevacizumab as the preferred agent for appropriate cases?",
+      "What barriers exist to biosimilar adoption — is it physician preference, payer formulary restrictions, or patient concerns?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Mandate biosimilar-first prescribing for bevacizumab-containing colorectal regimens, with branded agent requiring documented clinical rationale",
+        "timeframe": "immediate",
+        "expected_impact": "Shifting 73% brand bevacizumab usage to biosimilar-first could save a significant portion of the $300,000 excess cost in colorectal 1L alone"
+      },
+      {
+        "intervention": "Update the pathway to include MSI-directed immunotherapy as a pathway-designated option for MSI-high colorectal cancer",
+        "timeframe": "short-term",
+        "expected_impact": "Capturing immunotherapy cases for MSI-high patients as pathway-adherent could improve measured adherence by 3-5 percentage points"
+      },
+      {
+        "intervention": "Implement real-time biosimilar substitution alerts in the prescribing system",
+        "timeframe": "short-term",
+        "expected_impact": "Improving adherence from 64% to 80% would save approximately $300,000 by redirecting 4-5 episodes from non-pathway to pathway regimens"
+      }
+    ],
+    "contract_implications": "Colorectal Metastatic 1L contributes $300,000 in addressable excess cost, making it the second-largest cost driver after Lung NSCLC 1L. Combined, these two episode types account for $840,000 in excess cost attributable to non-pathway prescribing. Recommend linking pathway adherence directly to shared savings eligibility: adherence >75% for full sharing rate, with a 1% reduction in sharing rate for each percentage point below 75%. This creates a clear financial incentive for formulary compliance. The biosimilar connection should be highlighted at JOC as an immediate savings opportunity."
+  },
+
+  "End-of-Life Care": {
+    "diagnosis_summary": "This is the most critical quality finding in the oncology contract: all 5 end-of-life metrics are failing simultaneously, indicating a systemic failure to integrate palliative care into the oncology practice. The root cause is the 44.6% Advance Care Planning (ACP) documentation rate — well below the 65% target and below the 50% threshold that predicts EOL metric failures. Without documented goals-of-care conversations, patients default to aggressive treatment at end of life, driving every downstream metric: high chemotherapy near death (19%), low hospice enrollment (43.1%), late hospice referral (27.6%), high ICU utilization (24.1%), and high ER utilization (32.8%).",
+    "probable_causes": [
+      {
+        "cause": "Absence of a structured palliative care integration program — no embedded palliative care team, no routine ACP workflow, no automatic palliative care referral triggers",
+        "likelihood": "high",
+        "evidence": "5/5 EOL metrics failing simultaneously is diagnostic of a systemic gap, not individual measure failures; ACP at 44.6% (target 65%) is the upstream predictor that drives all downstream EOL metrics"
+      },
+      {
+        "cause": "Oncologist discomfort or lack of training in goals-of-care conversations, leading to avoidance of ACP documentation",
+        "likelihood": "high",
+        "evidence": "ACP 44.6% suggests fewer than half of eligible patients are having documented goals-of-care conversations; oncologists often defer these conversations, particularly when active treatment options remain"
+      },
+      {
+        "cause": "Late hospice referral culture — hospice viewed as 'giving up' rather than concurrent care",
+        "likelihood": "high",
+        "evidence": "Hospice enrollment 43.1% (target 55%) and hospice >7 days before death only 27.6% (target 40%) indicate that when hospice is engaged, it's too late. Median hospice stay is likely <7 days for many patients"
+      },
+      {
+        "cause": "No automatic trigger for palliative care referral at specific disease milestones",
+        "likelihood": "medium",
+        "evidence": "The pattern of aggressive EOL care (chemo within 14 days of death 19%, ICU within 30 days 24.1%) suggests treatment continues on autopilot without systematic reassessment of goals"
+      }
+    ],
+    "questions_for_provider": [
+      "Do you have an embedded palliative care team, or is palliative care consultation available only by referral?",
+      "What is your current workflow for initiating Advance Care Planning conversations — is there a disease stage or treatment milestone that triggers ACP?",
+      "For the 19% receiving chemotherapy within 14 days of death, was there a documented goals-of-care conversation before the last cycle was ordered?",
+      "Would you support implementing automatic palliative care co-management beginning at diagnosis of metastatic disease or at 2L+ treatment initiation?",
+      "What hospice partnerships are currently in place, and is there a mechanism for concurrent care (hospice enrollment while continuing disease-directed therapy)?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Hire or embed a palliative care team (physician + nurse practitioner + social worker) within the oncology practice with automatic referral triggers at metastatic diagnosis and 2L+ treatment initiation",
+        "timeframe": "immediate",
+        "expected_impact": "Published evidence shows embedded palliative care improves all EOL metrics simultaneously: ACP rates increase 25-40%, hospice enrollment increases 15-20%, chemotherapy near death decreases 30-50%, and ICU utilization decreases 25-35%. Financial impact: reducing aggressive EOL care saves approximately $15,000-$30,000 per decedent"
+      },
+      {
+        "intervention": "Implement a mandatory ACP documentation requirement at three milestones: metastatic diagnosis, disease progression, and transition to 2L+ therapy",
+        "timeframe": "immediate",
+        "expected_impact": "Increasing ACP from 44.6% to >65% would address the root cause predictor and is expected to improve all 5 downstream EOL metrics within 6-12 months"
+      },
+      {
+        "intervention": "Establish a concurrent care model with hospice partners allowing patients to continue disease-directed therapy while enrolled in hospice",
+        "timeframe": "short-term",
+        "expected_impact": "Concurrent care removes the 'giving up' barrier to hospice enrollment, potentially increasing enrollment from 43.1% to >55% and improving hospice length of stay"
+      },
+      {
+        "intervention": "Implement a chemotherapy near-death review: any chemotherapy ordered within 30 days of estimated prognosis <3 months requires palliative care co-sign",
+        "timeframe": "short-term",
+        "expected_impact": "Reducing chemo within 14 days of death from 19% to <10% improves quality scores and avoids approximately $10,000-$20,000 per case in futile treatment costs"
+      }
+    ],
+    "contract_implications": "This is the highest-impact quality finding in the entire report. The 5/5 EOL metric failure is both the largest quality gap (affecting 25+ quality points across multiple measures) and a significant cost driver (aggressive EOL care costs $15,000-$30,000 more per decedent than appropriate palliative management). Fixing ACP alone could close the 2-point quality gate gap identified in the Quality Gate flag. Recommend making palliative care integration a contract requirement with milestone-based incentives: Year 1 = hire embedded team and implement ACP workflow; Year 2 = achieve ACP >55% and hospice enrollment >50%; Year 3 = full EOL metric compliance. This should be the top agenda item at JOC."
+  },
+
+  "Quality Gate": {
+    "diagnosis_summary": "The oncology contract quality composite of 53.0% (53/100 points) falls 2.0 points below the 55% quality gate minimum. While the report indicates $0 in shared savings at risk (suggesting the contract is in a loss position), passing the quality gate is still essential for contract standing and positions the provider to capture savings if financial performance improves. The 2-point gap is small and highly addressable — targeted improvement on 1-2 measures could close it.",
+    "probable_causes": [
+      {
+        "cause": "Systemic end-of-life care quality failures depressing multiple quality measures simultaneously",
+        "likelihood": "high",
+        "evidence": "5/5 EOL metrics are failing (per the End-of-Life Care flags), collectively accounting for an estimated 15-20 lost quality points across EOL-related measures. Fixing the ACP root cause alone would likely recover enough points to pass the gate"
+      },
+      {
+        "cause": "Pathway adherence below target across multiple cancer types reducing quality scores",
+        "likelihood": "medium",
+        "evidence": "Pathway adherence is below expected for Breast Metastatic 1L (72% vs 75%), Lung NSCLC 1L (68% vs 72%), Colorectal Metastatic 1L (64% vs 68%), and several 2L+ types; each percentage point of adherence gap costs quality points"
+      },
+      {
+        "cause": "The quality gate threshold is new for this contract and the provider has not yet calibrated their performance to the measurement framework",
+        "likelihood": "medium",
+        "evidence": "No prior year rate available for pathway adherence (first contract year), suggesting this is a new quality program where the provider is still learning the measurement methodology"
+      }
+    ],
+    "questions_for_provider": [
+      "Are you aware that the quality composite is 2 points from passing the gate, and have you identified which measures have the most improvement potential?",
+      "For Patient Experience (Top Box) at 8/10 points — what specific improvements would earn the remaining 2 points?",
+      "For Biomarker Testing (NSCLC) at 7/10 points — what is the current testing rate and what gap needs to be closed for full points?",
+      "Would you like Carelon to provide a measure-by-measure improvement roadmap with estimated point values for specific interventions?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Target Patient Experience (Top Box) for immediate improvement — at 8/10 points, this measure needs only 2 additional points and likely requires incremental improvement in patient communication or wait times",
+        "timeframe": "immediate",
+        "expected_impact": "Closing the 2-point gap on this single measure would pass the quality gate"
+      },
+      {
+        "intervention": "Improve Biomarker Testing (NSCLC) compliance — at 7/10 points with a 3-point gap, implementing universal reflex biomarker testing for all NSCLC patients at diagnosis is a process fix",
+        "timeframe": "immediate",
+        "expected_impact": "If Patient Experience alone doesn't close the gap, 1-2 additional points from biomarker testing provides a buffer"
+      },
+      {
+        "intervention": "Address Hospice Enrollment (Decedents) — at 5/10 points with a 5-point gap, this has the largest point improvement potential but requires the palliative care interventions outlined in the EOL Care diagnostic",
+        "timeframe": "short-term",
+        "expected_impact": "Even modest hospice enrollment improvement (43% to 48%) could earn 1-2 additional quality points"
+      }
+    ],
+    "contract_implications": "The quality gate failure is currently consequence-free since the contract is in a loss position ($0 in shared savings to forfeit). However, if the provider improves financial performance and moves into a savings position, the quality gate failure would zero out their shared savings payout. The 2-point gap represents the difference between $0 and potentially hundreds of thousands in shared savings. Recommend the JOC prioritize the following sequence: (1) Patient Experience quick wins for immediate gate passage, (2) Biomarker testing process fix as insurance, (3) Palliative care integration for sustainable long-term quality improvement. The contract should consider adding a quality gate cure period — 90 days to demonstrate improvement before final gate determination."
+  },
+
+  "Drug Detail": {
+    "diagnosis_summary": "The drug utilization analysis reveals three distinct savings opportunities totaling approximately $684,000 in addressable excess cost: biosimilar adoption ($684,000 across trastuzumab, bevacizumab, and pegfilgrastim), site-of-service optimization ($138,937 for bevacizumab HOPD-to-office shift), and a novel therapy carve-out ($62,500 for dostarlimab). The biosimilar opportunity alone, at $684,000, exceeds any single episode-type savings opportunity in the oncology contract.",
+    "probable_causes": [
+      {
+        "cause": "Physician preference and inertia favoring branded biologics over clinically equivalent biosimilars",
+        "likelihood": "high",
+        "evidence": "Trastuzumab brand utilization 89% ($169K savings opportunity), bevacizumab brand 73% ($285K), pegfilgrastim brand 67% ($230K); all three biosimilars are FDA-approved and guideline-supported as interchangeable"
+      },
+      {
+        "cause": "Hospital outpatient department (HOPD) infusion routing for bevacizumab driven by provider system financial incentives",
+        "likelihood": "high",
+        "evidence": "85% HOPD administration for bevacizumab vs <60% target; HOPD infusion generates facility fees 2-3x higher than office-based administration; this pattern suggests health system policies routing infusions to higher-reimbursement hospital settings"
+      },
+      {
+        "cause": "Lack of pharmacy-level biosimilar substitution protocols and formulary enforcement",
+        "likelihood": "medium",
+        "evidence": "The varying brand utilization rates (89%, 73%, 67%) across the three biosimilar-available drugs suggest no systematic biosimilar-first policy; adoption appears to be individual physician-driven"
+      },
+      {
+        "cause": "Novel therapy (dostarlimab) appropriately used but not yet carved out per contract terms",
+        "likelihood": "high",
+        "evidence": "$62,500 in dostarlimab costs may be excluded per the contract's 18-month novel therapy carve-out provision; this is a contract administration issue, not a utilization concern"
+      }
+    ],
+    "questions_for_provider": [
+      "Do you have a biosimilar-first prescribing policy, and if so, what is the process for requesting a branded biologic when a biosimilar is available?",
+      "For bevacizumab — why are 85% of infusions at HOPD? Is this driven by scheduling convenience, nursing staffing at office sites, or financial routing policies?",
+      "What would be required to shift bevacizumab infusions to office-based settings — additional infusion chairs, nursing staff, or pharmacy setup?",
+      "For trastuzumab specifically, at 89% brand utilization, is there oncologist resistance to the biosimilar, or is this a pharmacy dispensing/formulary issue?",
+      "Have you submitted the dostarlimab costs for novel therapy carve-out consideration under the contract terms?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Implement a biosimilar-first prescribing mandate for trastuzumab, bevacizumab, and pegfilgrastim — branded agent requires documented clinical justification and pharmacy committee approval",
+        "timeframe": "immediate",
+        "expected_impact": "Full biosimilar conversion for these three drugs would save approximately $684,000: trastuzumab $169,000 + bevacizumab $285,000 + pegfilgrastim $230,000"
+      },
+      {
+        "intervention": "Develop a site-of-service optimization program redirecting office-administrable drugs from HOPD to physician office infusion suites",
+        "timeframe": "short-term",
+        "expected_impact": "Shifting bevacizumab from 85% to 40% HOPD administration would save an estimated $138,937 in facility fee differentials"
+      },
+      {
+        "intervention": "Submit dostarlimab costs for novel therapy carve-out review under the contract's 18-month lookback provision",
+        "timeframe": "immediate",
+        "expected_impact": "If approved, $62,500 would be excluded from the savings calculation, improving the provider's financial position by $31,250 at the 50% sharing rate"
+      },
+      {
+        "intervention": "Establish quarterly biosimilar utilization reporting and targets, with escalating expectations: Q1 >50% biosimilar, Q2 >65%, Q3 >80%",
+        "timeframe": "short-term",
+        "expected_impact": "Phased targets allow clinical teams to build comfort with biosimilars while maintaining a clear trajectory toward full adoption"
+      }
+    ],
+    "contract_implications": "The combined drug-level savings opportunity is approximately $884,937 ($684,000 biosimilar + $138,937 site-of-service + $62,500 novel carve-out). This exceeds any other single category of savings in the oncology contract. Recommend adding the following to the next contract amendment: (1) biosimilar utilization targets with shared savings bonuses for achieving >80% biosimilar rates, (2) a site-of-service quality measure with financial incentive for office-based infusion >60%, and (3) automatic novel therapy carve-out processing to avoid manual submission delays. The biosimilar opportunity should be the first item discussed at JOC after the EOL care findings."
+  },
+
+  "Breast Volume": {
+    "diagnosis_summary": "The breast cancer episode rate of 26.7 per 1,000 members is approximately 6-13x higher than the expected range of 2.0-4.5 per 1,000 for an MA population. This magnitude of deviation virtually rules out clinical explanations and strongly indicates a data or attribution algorithm problem — either duplicate episodes, incorrect member attribution, or an episode definition issue that is counting treatment cycles as separate episodes.",
+    "probable_causes": [
+      {
+        "cause": "Episode definition counting individual treatment cycles or claims as separate episodes rather than one episode per cancer diagnosis",
+        "likelihood": "high",
+        "evidence": "26.7/1,000 is ~8x the expected rate of 3.2/1,000; breast cancer incidence in MA-age women is approximately 3-4/1,000, so 128 episodes for 4,800 members is impossible under a one-episode-per-diagnosis definition"
+      },
+      {
+        "cause": "Attribution algorithm assigning non-attributed members' episodes to this contract",
+        "likelihood": "medium",
+        "evidence": "If the attribution algorithm has a matching error, episodes from the broader health plan population could be incorrectly assigned to this 4,800-member group"
+      },
+      {
+        "cause": "Duplicate episode records from data pipeline errors or multiple source system feeds",
+        "likelihood": "medium",
+        "evidence": "Standard deduplication checks may not catch near-duplicates (same patient, overlapping dates, different claim IDs) if the dedup logic is not sufficiently granular"
+      }
+    ],
+    "questions_for_provider": [
+      "Can you confirm the episode definition for breast cancer — is it one episode per patient per diagnosis, per line of therapy, or per treatment cycle?",
+      "How many unique patients are represented in the 128 breast episodes — is it 128 unique patients or fewer patients with multiple episodes?",
+      "Can your data team run a deduplication check on breast episodes looking for same-patient episodes with overlapping date ranges?",
+      "Has the attribution algorithm been validated — specifically, are all 128 episodes for patients in the 4,800 attributed member panel?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Immediately audit breast cancer episode data: deduplicate by patient ID, verify attribution, and reconcile episode count against unique patient count",
+        "timeframe": "immediate",
+        "expected_impact": "If this is a data error, correcting it would dramatically change the financial and utilization picture for the oncology contract — potentially reducing episode count by 70-80%"
+      },
+      {
+        "intervention": "Validate the episode grouper algorithm against known cancer registry data for this member population",
+        "timeframe": "immediate",
+        "expected_impact": "Ensures episode counts align with actual cancer incidence and prevents cascading errors in target pricing and savings calculations"
+      },
+      {
+        "intervention": "Implement automated volume-vs-incidence checks in the data pipeline to flag impossible rates before reports are generated",
+        "timeframe": "short-term",
+        "expected_impact": "Prevents future reporting of implausible volume data and enables early detection of data quality issues"
+      }
+    ],
+    "contract_implications": "This is a critical data integrity issue that may invalidate the oncology contract's financial calculations. If 128 breast episodes is overstated by 5-10x, the total cost, total target, variance, and shared savings/losses for the entire oncology contract are incorrect. No financial decisions should be based on the oncology contract numbers until this volume anomaly is investigated and resolved. Recommend suspending the oncology financial reconciliation pending data audit. This applies equally to the Lung, Colorectal, and Prostate volume flags."
+  },
+
+  "Lung Volume": {
+    "diagnosis_summary": "The lung cancer episode rate of 13.8 per 1,000 members is approximately 4-9x higher than the expected range of 1.5-3.5 per 1,000. Similar to the breast volume anomaly, this magnitude cannot be explained by clinical variation and indicates the same underlying data or attribution problem affecting the entire oncology episode dataset.",
+    "probable_causes": [
+      {
+        "cause": "Same episode definition or attribution error affecting all oncology cancer types — treatment cycles or claims counted as separate episodes",
+        "likelihood": "high",
+        "evidence": "13.8/1,000 is ~5.8x the expected rate of 2.4/1,000; lung cancer incidence in MA populations is approximately 2-3/1,000, so 66 episodes for 4,800 members is implausible under one-episode-per-diagnosis counting"
+      },
+      {
+        "cause": "Systematic attribution algorithm error inflating episode volumes across all cancer types",
+        "likelihood": "medium",
+        "evidence": "All four cancer types (Breast, Lung, Colorectal, Prostate) show the same pattern of extreme volume overstatement, suggesting a common upstream data error rather than cancer-type-specific issues"
+      }
+    ],
+    "questions_for_provider": [
+      "How many unique lung cancer patients are represented in the 66 episodes?",
+      "Is the volume anomaly consistent across all source systems, or does it appear only in one data feed?",
+      "Are these 66 episodes inclusive of both NSCLC and SCLC, and are staging/line-of-therapy episodes being counted separately?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Include lung episodes in the comprehensive oncology episode data audit recommended for breast volume — investigate by patient deduplication and attribution validation",
+        "timeframe": "immediate",
+        "expected_impact": "Correcting the data would align episode counts with actual lung cancer incidence and enable accurate financial calculations"
+      },
+      {
+        "intervention": "Verify whether line-of-therapy transitions (1L to 2L+) are being counted as new episodes rather than continuations",
+        "timeframe": "immediate",
+        "expected_impact": "If line-of-therapy transitions are counted as separate episodes, the volume would appear inflated while being technically correct under a different counting methodology — but the target prices would need adjustment"
+      }
+    ],
+    "contract_implications": "Same as Breast Volume — this volume anomaly may invalidate the oncology contract's financial reconciliation. The consistent pattern across all cancer types (Breast 26.7/1K, Lung 13.8/1K, Colorectal 13.3/1K, Prostate 14.0/1K — all 4-13x expected) strongly suggests a single root cause. Recommend a unified data audit addressing all four cancer types simultaneously before any financial reconciliation proceeds."
+  },
+
+  "Colorectal Volume": {
+    "diagnosis_summary": "Colorectal cancer episode rate of 13.3 per 1,000 is approximately 5-13x above the expected range of 1.0-2.5 per 1,000. This is part of the same systematic volume overstatement pattern observed across all four cancer types in the oncology contract, reinforcing the conclusion that a common data or attribution error affects the entire oncology episode dataset.",
+    "probable_causes": [
+      {
+        "cause": "Common episode definition or data pipeline error inflating volumes across all oncology cancer types",
+        "likelihood": "high",
+        "evidence": "13.3/1,000 is ~8.3x the expected rate of 1.6/1,000; colorectal cancer incidence in MA populations is approximately 1-2/1,000, making 64 episodes for 4,800 members statistically impossible under standard episode definitions"
+      },
+      {
+        "cause": "Multiple episodes per patient due to line-of-therapy counting or treatment cycle-based episode definition",
+        "likelihood": "high",
+        "evidence": "Colorectal treatment often involves multiple sequential regimen changes (FOLFOX → FOLFIRI → targeted therapy), and if each regimen change creates a new episode, volumes would appear inflated relative to incidence-based expectations"
+      }
+    ],
+    "questions_for_provider": [
+      "How many unique colorectal cancer patients are represented in the 64 episodes?",
+      "If a patient transitions from FOLFOX to FOLFIRI, is that counted as one episode or two?",
+      "Are recurrent/relapsed episodes after initial treatment being counted separately from the initial treatment episode?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Include colorectal episodes in the unified oncology data audit",
+        "timeframe": "immediate",
+        "expected_impact": "Identifying and correcting the counting methodology will align volumes with expectations and enable accurate financial reconciliation"
+      }
+    ],
+    "contract_implications": "Part of the same systemic issue as Breast and Lung volumes. The oncology contract's financial reconciliation should be paused until all cancer-type volumes are validated. If the episode definition is intentionally counting by line-of-therapy rather than by patient, then the expected volume ranges need to be recalibrated accordingly, and this is a methodology documentation issue rather than a data error."
+  },
+
+  "Prostate Volume": {
+    "diagnosis_summary": "Prostate cancer episode rate of 14.0 per 1,000 is approximately 5-9x above the expected range of 1.5-3.0 per 1,000. This completes the pattern: all four cancer types in the oncology contract show extreme volume overstatement (4-13x expected), confirming a systematic data or methodology issue rather than any cancer-type-specific anomaly.",
+    "probable_causes": [
+      {
+        "cause": "Systematic episode counting or attribution error common to all oncology cancer types",
+        "likelihood": "high",
+        "evidence": "14.0/1,000 is ~6.7x the expected rate of 2.1/1,000; prostate cancer incidence in MA populations is approximately 2-3/1,000, and 67 episodes for 4,800 members cannot be explained by clinical variation"
+      },
+      {
+        "cause": "Active surveillance or hormone therapy cycles being counted as separate episodes",
+        "likelihood": "medium",
+        "evidence": "Prostate cancer uniquely includes active surveillance, androgen deprivation therapy cycles, and radiation therapy episodes; if each treatment modality generates a separate episode, volumes would appear inflated relative to disease incidence"
+      }
+    ],
+    "questions_for_provider": [
+      "How many unique prostate cancer patients are represented in the 67 episodes?",
+      "Are active surveillance visits, ADT cycles, and radiation therapy episodes counted separately or as components of a single disease episode?",
+      "Is the episode grouper correctly distinguishing between newly diagnosed prostate cancer and ongoing treatment for previously diagnosed disease?"
+    ],
+    "recommended_interventions": [
+      {
+        "intervention": "Include prostate episodes in the unified oncology data audit, with specific attention to active surveillance and multi-modality treatment counting",
+        "timeframe": "immediate",
+        "expected_impact": "Resolving the counting methodology for prostate cancer — which has unique treatment patterns — will also help clarify the episode definition for all cancer types"
+      },
+      {
+        "intervention": "Establish a clear episode definition document that explicitly addresses: one episode per diagnosis vs per line of therapy vs per treatment modality, and apply it consistently across all cancer types",
+        "timeframe": "short-term",
+        "expected_impact": "A documented and agreed-upon episode definition prevents future volume disputes and enables accurate benchmarking against expected incidence rates"
+      }
+    ],
+    "contract_implications": "This is the fourth of four cancer types showing implausible volume rates. The pattern is now unambiguous: the oncology contract's episode data has a systematic methodology or data quality issue. Recommend the following contract actions: (1) suspend financial reconciliation pending data audit, (2) convene a joint data validation session between Carelon analytics and the provider's data team, (3) establish an agreed-upon episode definition document, and (4) reprocess all oncology episodes under the validated methodology before any shared savings/losses are calculated. The JOC should treat this as a foundational data integrity issue that must be resolved before any clinical or financial action items can be reliably prioritized."
+  }
+}
